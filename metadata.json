@@ -1,0 +1,6 @@
+{
+  "name": "건강체력교실",
+  "description": "신안해양과학고등학교 체육수업용 PAPS 연동 맞춤형 건강체력교실 웹앱 (학생 간편 로그인, 가정용 배틀로프 운동 가이드, 운동 카운터/타이머, 교사 대시보드, 구글 시트 및 Firebase 연동)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

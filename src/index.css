@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-navy: #0B132B;
+    --navy-card: #14213D;
+    --navy-card-hover: #1C2A4D;
+    --navy-border: #1E3A5F;
+    --aqua-blue: #00B4D8;
+    --aqua-glow: rgba(0, 180, 216, 0.25);
+    --coral-red: #FF4B4B;
+    --coral-glow: rgba(255, 75, 75, 0.25);
+    --font-pretendard: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-pretendard);
+    background-color: var(--bg-navy);
+    color: #F1F5F9;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input, textarea, select {
+    user-select: auto;
+  }
+}
+
+/* Custom sport & UI animations */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.03); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}
+
+/* Custom scrollbar for dark mode */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0B132B;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E3A5F;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00B4D8;
+}
+
+/* Touch active helpers */
+.touch-press-scale {
+  transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.touch-press-scale:active {
+  transform: scale(0.96);
+}

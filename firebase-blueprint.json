@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "WorkoutLog": {
+      "title": "WorkoutLog",
+      "description": "Student workout session completion log",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "schoolType": { "type": "string", "enum": ["middle", "high"] },
+        "grade": { "type": "number" },
+        "classNum": { "type": "number" },
+        "number": { "type": "number" },
+        "gender": { "type": "string", "enum": ["M", "F"] },
+        "exerciseId": { "type": "string" },
+        "exerciseName": { "type": "string" },
+        "category": { "type": "string" },
+        "recordType": { "type": "string", "enum": ["count", "timer"] },
+        "value": { "type": "number" },
+        "unit": { "type": "string", "enum": ["회", "초"] },
+        "durationSeconds": { "type": "number" },
+        "timestamp": { "type": "string" },
+        "dateFormatted": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "studentId", "studentName", "exerciseName", "value", "unit", "timestamp"]
+    },
+    "InBodyRecord": {
+      "title": "InBodyRecord",
+      "description": "InBody body composition inspection record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "grade": { "type": "number" },
+        "classNum": { "type": "number" },
+        "number": { "type": "number" },
+        "gender": { "type": "string", "enum": ["M", "F"] },
+        "measuredAt": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "height": { "type": "number" },
+        "weight": { "type": "number" },
+        "skeletalMuscleMass": { "type": "number" },
+        "bodyFatMass": { "type": "number" },
+        "bodyFatPercentage": { "type": "number" },
+        "bmi": { "type": "number" },
+        "inBodyScore": { "type": "number" },
+        "bmr": { "type": "number" },
+        "visceralFatLevel": { "type": "number" },
+        "bodyType": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "studentId", "measuredAt", "height", "weight", "skeletalMuscleMass", "bodyFatPercentage"]
+    },
+    "WorkoutPlan": {
+      "title": "WorkoutPlan",
+      "description": "Customized fitness workout plan for a student",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "planTitle": { "type": "string" },
+        "weeklyGoalSessions": { "type": "number" },
+        "exercises": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "studentId", "planTitle", "exercises"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Student roster profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "schoolType": { "type": "string", "enum": ["middle", "high"] },
+        "grade": { "type": "number" },
+        "classNum": { "type": "number" },
+        "number": { "type": "number" },
+        "name": { "type": "string" },
+        "gender": { "type": "string", "enum": ["M", "F"] },
+        "pin": { "type": "string" },
+        "isInitialPin": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "grade", "classNum", "number", "name", "gender"]
+    }
+  },
+  "firestore": {
+    "/workoutLogs/{logId}": {
+      "schema": "WorkoutLog",
+      "description": "Collection of all student workout completed logs"
+    },
+    "/inbodyRecords/{recordId}": {
+      "schema": "InBodyRecord",
+      "description": "Collection of all InBody test inspection sheets"
+    },
+    "/workoutPlans/{studentId}": {
+      "schema": "WorkoutPlan",
+      "description": "Student fitness workout routine plans keyed by studentId"
+    },
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "Student roster profile and PIN data"
+    }
+  }
+}
