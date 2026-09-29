@@ -64,6 +64,10 @@ export interface Student {
 export type ExerciseCategory = 
   | 'cardio' 
   | 'strength' 
+  | 'bodyweight'
+  | 'chinningdipping'
+  | 'kettlebell'
+  | 'interval'
   | 'flexibility' 
   | 'power' 
   | 'core' 
@@ -84,7 +88,23 @@ export interface ExerciseGuide {
   id: string;
   name: string;
   category: ExerciseCategory;
-  subType?: 'paps_official' | 'loop_band' | 'running_drill' | 'bodyweight_core' | 'flexibility_stretch' | 'plyometrics' | 'battle_rope';
+  subType?: 
+    | 'paps_official' 
+    | 'loop_band' 
+    | 'running_drill' 
+    | 'interval_drill'
+    | 'bodyweight_core' 
+    | 'bodyweight_back'
+    | 'bodyweight_shoulder'
+    | 'bodyweight_chest'
+    | 'bodyweight_abs'
+    | 'bodyweight_legs'
+    | 'chinning_dipping'
+    | 'kettlebell'
+    | 'flexibility_stretch' 
+    | 'plyometrics' 
+    | 'battle_rope';
+  bodyPart?: 'back' | 'shoulder' | 'chest' | 'abs' | 'legs'; // 맨몸운동 5대 부위 균형 표시
   targetPaps: string; // e.g., "심폐지구력 (왕복오래달리기)"
   difficulty: '초급' | '중급' | '고급';
   targetMuscles: string[];
@@ -150,22 +170,6 @@ export interface AppConfig {
   gasWebhookUrl: string;
   firebaseConfig: FirebaseClientConfig | null;
   enableSoundFeedback: boolean;
-}
-
-export interface LeaderboardEntry {
-  studentId: string;
-  name: string;
-  grade: number;
-  classNum: number;
-  number: number;
-  gender: Gender;
-  totalWorkouts: number;
-  totalScore: number;
-  cardioScore: number;
-  strengthScore: number;
-  flexibilityScore: number;
-  powerScore: number;
-  recentActivity: string;
 }
 
 export interface StudentReportOption {

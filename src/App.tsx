@@ -24,7 +24,6 @@ import { StudentDashboard } from './components/StudentDashboard';
 import { WorkoutTracker } from './components/WorkoutTracker';
 import { ExerciseGuideView } from './components/ExerciseGuideView';
 import { PapsAssessmentView } from './components/PapsAssessmentView';
-import { LeaderboardView } from './components/LeaderboardView';
 import { TeacherDashboard } from './components/TeacherDashboard';
 import { TeacherLoginModal } from './components/TeacherLoginModal';
 import { InbodyDashboard } from './components/InbodyDashboard';
@@ -268,14 +267,6 @@ export default function App() {
                 student={currentActiveStudent}
                 onAssessmentUpdated={handlePapsUpdated}
                 onNavigateToExercise={handleStartExerciseTracker}
-              />
-            )}
-
-            {activeTab === 'leaderboard' && (
-              <LeaderboardView
-                students={students}
-                logs={logs}
-                currentStudent={currentActiveStudent}
               />
             )}
           </>

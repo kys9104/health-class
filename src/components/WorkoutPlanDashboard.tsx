@@ -86,12 +86,12 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
         },
         {
           id: `item-3`,
-          exerciseId: 'battlerope-double-wave',
-          exerciseName: '가정용 배틀로프 더블 암 파워 웨이브',
-          category: 'battlerope',
+          exerciseId: 'kettlebell-two-hand-swing',
+          exerciseName: '캐틀벨 투핸드 스윙 (Kettlebell Swing)',
+          category: 'kettlebell',
           targetSets: 3,
-          targetRepsOrTime: 30,
-          unit: '초',
+          targetRepsOrTime: 20,
+          unit: '회',
           restSeconds: 45,
           dayOfWeek: '금',
           completedSets: 0,
@@ -324,9 +324,6 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
               <span>{student.name} 학생의 체력 운동 계획 대시보드</span>
             </h1>
-            <p className="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
-              맞춤 운동 가이드의 핵심 종목(배틀로프, 루프밴드, 심폐 셔틀런, 코어 맨몸운동)을 나만의 루틴으로 계획하고, 내장된 전용 카운터 및 세트 타이머로 실시간 측정하세요.
-            </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -396,7 +393,7 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
             <div className="space-y-1">
               <h3 className="text-base font-bold text-white">등록된 운동 계획이 없습니다</h3>
               <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
-                맞춤 운동 가이드의 다양한 체력 종목(배틀로프, 루프밴드, 러닝, 코어 등)을 내 계획에 추가하여 규칙적인 운동을 시작해 보세요.
+                맞춤 운동 가이드의 다양한 체력 종목(맨몸 5대 부위, 치닝디핑, 캐틀벨, 러닝, 인터벌 등)을 내 계획에 추가하여 규칙적인 운동을 시작해 보세요.
               </p>
             </div>
             <button
@@ -426,10 +423,11 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
                     {/* Top Row: Category & Status */}
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-[#0B132B] text-[#00B4D8] border border-slate-800">
-                        {item.category === 'battlerope' ? '가정용 배틀로프' :
-                         item.category === 'loopband' ? '루프밴드' :
+                        {item.category === 'chinningdipping' ? '치닝디핑' :
+                         item.category === 'kettlebell' ? '캐틀벨' :
+                         item.category === 'interval' ? '인터벌 훈련' :
                          item.category === 'cardio' ? '심폐지구력' :
-                         item.category === 'strength' ? '근력/근지구력' :
+                         item.category === 'strength' ? '근력/맨몸' :
                          item.category === 'flexibility' ? '유연성' :
                          item.category === 'power' ? '순발력' : '체력 운동'}
                       </span>
@@ -711,10 +709,11 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
               <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs font-bold">
                 {[
                   { id: 'all', label: '전체' },
-                  { id: 'battlerope', label: '가정용 배틀로프' },
+                  { id: 'strength', label: '맨몸 5대 부위' },
+                  { id: 'chinningdipping', label: '치닝디핑' },
+                  { id: 'kettlebell', label: '캐틀벨' },
+                  { id: 'interval', label: '인터벌 훈련' },
                   { id: 'cardio', label: '심폐지구력' },
-                  { id: 'strength', label: '근력/코어' },
-                  { id: 'loopband', label: '루프밴드' },
                   { id: 'flexibility', label: '유연성' },
                   { id: 'power', label: '순발력' },
                 ].map(cat => (

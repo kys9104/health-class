@@ -2,18 +2,17 @@ import React from 'react';
 import { 
   Flame, 
   Dumbbell, 
-  Timer, 
   Award, 
-  Trophy, 
-  ShieldCheck, 
-  LogOut, 
+  Timer, 
+  Scale, 
+  HeartHandshake, 
   User, 
-  HeartHandshake,
-  Menu,
+  ShieldCheck, 
+  Menu, 
   X,
-  Scale,
   Calendar,
-  Cloud
+  Cloud,
+  LogOut
 } from 'lucide-react';
 import { Student } from '../types';
 import { getPapsGradeColor } from '../utils/papsCalculator';
@@ -22,7 +21,7 @@ interface NavbarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   activeStudent: Student | null;
-  students?: Student[];
+  students: Student[];
   onSelectStudent?: (student: Student) => void;
   onLogout: () => void;
   onOpenTeacherMode: () => void;
@@ -36,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   activeStudent,
-  students = [],
+  students,
   onSelectStudent,
   onLogout,
   onOpenTeacherMode,
@@ -58,43 +57,47 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'tracker', label: '운동 측정/카운터', icon: Timer },
     { id: 'guide', label: '맞춤 운동 가이드', icon: HeartHandshake },
     { id: 'paps', label: 'PAPS 진단', icon: Award },
-    { id: 'leaderboard', label: '명예의 전당', icon: Trophy },
   ];
 
   return (
     <header className="sticky top-0 z-40 bg-[#0B132B]/95 backdrop-blur-md border-b border-[#1E3A5F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between min-h-[4.25rem] py-1.5 gap-2">
           
-          {/* Logo Brand */}
-          <div className="flex items-center gap-3">
+          {/* Logo Brand in a neat container box */}
+          <div className="flex items-center shrink-0">
             <button
               id="app-logo-btn"
               onClick={() => setActiveTab(isTeacherMode ? 'teacher' : 'dashboard')}
-              className="flex items-center gap-2.5 text-left group"
+              className="flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl bg-[#14213D] border border-slate-700/80 hover:border-[#00B4D8]/50 shadow-sm transition group text-left"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#00B4D8] to-[#FF4B4B] p-0.5 flex items-center justify-center shadow-lg shadow-[#00B4D8]/20 group-hover:scale-105 transition">
-                <div className="w-full h-full bg-[#0B132B] rounded-[10px] flex items-center justify-center">
-                  <Flame className="w-5 h-5 text-[#00B4D8] group-hover:text-[#FF4B4B] transition" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00B4D8] to-[#FF4B4B] p-0.5 flex items-center justify-center shadow-md shadow-[#00B4D8]/20 group-hover:scale-105 transition shrink-0">
+                <div className="w-full h-full bg-[#0B132B] rounded-[9px] flex items-center justify-center">
+                  <Flame className="w-4 h-4 text-[#00B4D8] group-hover:text-[#FF4B4B] transition" />
                 </div>
               </div>
-              <div>
-                <span className="font-black text-lg text-white tracking-wider flex items-center gap-1.5">
-                  건강체력교실
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#00B4D8]/20 text-[#00B4D8] border border-[#00B4D8]/30">
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-black text-sm text-white tracking-wide">
+                    건강체력교실
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#00B4D8]/20 text-[#00B4D8] border border-[#00B4D8]/30 shrink-0">
                     신안해양과학고
                   </span>
-                </span>
-                <span className="block text-[10px] text-slate-400 font-medium -mt-1">
-                  E-PAPS 스마트 체육수업
-                </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-[10px] font-semibold text-slate-300 px-1.5 py-0.2 rounded bg-[#0B132B] border border-slate-700/60 inline-flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    스마트 체육수업
+                  </span>
+                </div>
               </div>
             </button>
           </div>
 
           {/* Desktop Nav Items (when student is logged in) */}
           {!isTeacherMode && activeStudent && (
-            <nav className="hidden md:flex items-center gap-1 bg-[#14213D] p-1 rounded-2xl border border-slate-800">
+            <nav className="hidden lg:flex items-center gap-1 bg-[#14213D] p-1 rounded-2xl border border-slate-800 overflow-x-auto scrollbar-none max-w-2xl">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -103,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     key={item.id}
                     id={`nav-tab-${item.id}`}
                     onClick={() => setActiveTab(item.id)}
-                    className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap ${
                       isActive
                         ? 'bg-[#00B4D8] text-[#0B132B] shadow-sm'
                         : item.highlight
@@ -111,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-3.5 h-3.5 shrink-0" />
                     <span>{item.label}</span>
                   </button>
                 );
@@ -120,15 +123,15 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
 
           {/* Right Action Profile & Teacher Switch */}
-          <div className="flex items-center gap-2.5">
-            {/* Firebase Live Cloud Status & Sync Button */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Firebase Live Cloud Status & Sync Button in box */}
             {onSyncFirebase && (
               <button
                 id="navbar-firebase-sync-btn"
                 onClick={onSyncFirebase}
                 disabled={isSyncing}
                 title="Firebase 클라우드 실시간 동기화"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#14213D] border border-slate-700/80 text-[11px] font-bold text-slate-300 hover:text-white hover:border-[#00B4D8] transition"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#14213D] border border-slate-700/80 text-[11px] font-bold text-slate-300 hover:text-white hover:border-[#00B4D8] transition shrink-0"
               >
                 <span className={`w-2 h-2 rounded-full ${isFirebaseConnected ? 'bg-emerald-400' : 'bg-amber-400'} ${isSyncing ? 'animate-ping' : ''}`} />
                 <Cloud className="w-3.5 h-3.5 text-[#00B4D8]" />
@@ -154,10 +157,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             ) : activeStudent ? (
               <div className="flex items-center gap-2">
-                {/* Student Selector / Info Badge */}
+                {/* Student Selector in neat box */}
                 {students.length > 0 && onSelectStudent ? (
-                  <div className="flex items-center gap-1.5 bg-[#14213D] border border-slate-700/80 px-2 py-1 rounded-xl">
-                    <User className="w-3.5 h-3.5 text-[#00B4D8]" />
+                  <div className="flex items-center gap-1.5 bg-[#14213D] border border-slate-700/80 px-2.5 py-1.5 rounded-xl shadow-sm">
+                    <User className="w-3.5 h-3.5 text-[#00B4D8] shrink-0" />
                     <select
                       id="navbar-student-selector"
                       value={activeStudent.id}
@@ -165,7 +168,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         const target = students.find(s => s.id === e.target.value);
                         if (target) onSelectStudent(target);
                       }}
-                      className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer pr-1"
+                      className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer pr-1 max-w-[130px] sm:max-w-none truncate"
                     >
                       {students.map(s => (
                         <option key={s.id} value={s.id} className="bg-[#0B132B] text-white">
@@ -174,13 +177,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                       ))}
                     </select>
                     {studentPapsColor && (
-                      <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded border ${studentPapsColor.bg} ${studentPapsColor.text} ${studentPapsColor.border}`}>
+                      <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded border ${studentPapsColor.bg} ${studentPapsColor.text} ${studentPapsColor.border} shrink-0`}>
                         {studentPapsColor.label.split(' ')[0]}
                       </span>
                     )}
                   </div>
                 ) : (
-                  <div className="hidden sm:flex items-center gap-2 bg-[#14213D] border border-slate-700/80 px-3 py-1.5 rounded-xl">
+                  <div className="hidden sm:flex items-center gap-2 bg-[#14213D] border border-slate-700/80 px-3 py-1.5 rounded-xl shadow-sm">
                     <div className="w-6 h-6 rounded-full bg-[#00B4D8]/20 flex items-center justify-center text-[#00B4D8]">
                       <User className="w-3.5 h-3.5" />
                     </div>
@@ -200,14 +203,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </div>
                 )}
 
-                {/* Teacher Mode Shortcut */}
+                {/* Teacher Mode Shortcut Box - Always visible & in container */}
                 <button
                   id="teacher-portal-shortcut-btn"
                   onClick={onOpenTeacherMode}
-                  className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-[#00B4D8]/10 hover:bg-[#00B4D8]/20 border border-[#00B4D8]/30 text-[#00B4D8] text-xs font-bold flex items-center gap-1.5 transition"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#14213D] hover:bg-slate-800 border border-[#00B4D8]/40 hover:border-[#00B4D8] text-[#00B4D8] text-xs font-bold transition shadow-sm shrink-0"
+                  title="체육교사 관리자 모드로 전환"
                 >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span className="hidden sm:inline">교사모드</span>
+                  <ShieldCheck className="w-4 h-4 text-[#00B4D8] shrink-0" />
+                  <span>교사모드</span>
                 </button>
               </div>
             ) : (
@@ -221,12 +225,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile / Tablet Menu Toggle */}
             {!isTeacherMode && activeStudent && (
               <button
                 id="mobile-menu-toggle-btn"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-xl bg-[#14213D] border border-slate-700 text-slate-300 hover:text-white"
+                className="lg:hidden p-2 rounded-xl bg-[#14213D] border border-slate-700 text-slate-300 hover:text-white shrink-0"
+                aria-label="메뉴 열기"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -236,7 +241,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && !isTeacherMode && activeStudent && (
-          <div className="md:hidden py-3 border-t border-slate-800 space-y-1">
+          <div className="lg:hidden py-3 border-t border-slate-800 space-y-1">
             {/* Mobile student info badge */}
             <div className="px-3 py-2 bg-[#14213D] rounded-xl mb-2 flex items-center justify-between border border-slate-800">
               <div className="flex items-center gap-2">

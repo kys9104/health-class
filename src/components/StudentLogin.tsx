@@ -115,7 +115,7 @@ export const StudentLogin: React.FC<StudentLoginProps> = ({
               </div>
             </div>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#00B4D8]/15 text-[#00B4D8] border border-[#00B4D8]/30">
-              E-PAPS
+              PAPS 체육
             </span>
           </div>
 

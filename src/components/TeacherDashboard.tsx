@@ -51,7 +51,6 @@ import { StudentDashboard } from './StudentDashboard';
 import { ExerciseGuideView } from './ExerciseGuideView';
 import { PapsAssessmentView } from './PapsAssessmentView';
 import { WorkoutTracker } from './WorkoutTracker';
-import { LeaderboardView } from './LeaderboardView';
 import { TeacherStudentStatusOverview } from './TeacherStudentStatusOverview';
 import { WorkoutPlanDashboard } from './WorkoutPlanDashboard';
 import { InbodyDashboard } from './InbodyDashboard';
@@ -88,7 +87,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
   // Student Screen Preview / Simulator State
   const [previewStudentId, setPreviewStudentId] = useState<string>(students[0]?.id || '');
-  const [previewSubTab, setPreviewSubTab] = useState<'dashboard' | 'guide' | 'paps' | 'tracker' | 'leaderboard' | 'plan' | 'inbody'>('dashboard');
+  const [previewSubTab, setPreviewSubTab] = useState<'dashboard' | 'guide' | 'paps' | 'tracker' | 'plan' | 'inbody'>('dashboard');
   const [previewExerciseId, setPreviewExerciseId] = useState<string | undefined>(undefined);
 
   // Roster Tab Filters & Form
@@ -695,10 +694,9 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 { id: 'dashboard', label: '📊 1. 개인 대시보드 & PAPS 차트', icon: Activity },
                 { id: 'plan', label: '📅 2. 개인 맞춤 운동 계획', icon: Calendar },
                 { id: 'inbody', label: '⚖️ 3. 인바디 검사 & 체성분 변화', icon: Scale },
-                { id: 'guide', label: '🌀 4. 맞춤운동 가이드 (루프밴드/러닝/맨몸/스트레칭/순발력)', icon: Layers },
+                { id: 'guide', label: '🌀 4. 맞춤운동 가이드 (맨몸5대부위/치닝디핑/캐틀벨/인터벌)', icon: Layers },
                 { id: 'paps', label: '📋 5. PAPS 5종 측정 & 등급 계산기', icon: Award },
                 { id: 'tracker', label: '⏱️ 6. 실시간 운동 측정기 & 타이머', icon: Zap },
-                { id: 'leaderboard', label: '🏆 7. 체력 랭킹 & 리더보드', icon: Sparkles },
               ].map(sub => {
                 const Icon = sub.icon;
                 const isCurrent = previewSubTab === sub.id;
@@ -801,15 +799,6 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                   alert(`[교사 시뮬레이터] ${newLog.exerciseName} ${newLog.value}${newLog.unit} 운동 기록이 정상 등록되었습니다!`);
                 }}
                 onNavigateBack={() => setPreviewSubTab('dashboard')}
-              />
-            )}
-
-            {/* Screen 6: Leaderboard & Rankings */}
-            {previewSubTab === 'leaderboard' && (
-              <LeaderboardView
-                students={students}
-                logs={logs}
-                currentStudent={students.find(s => s.id === previewStudentId) || students[0]}
               />
             )}
           </div>

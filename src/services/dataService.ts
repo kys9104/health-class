@@ -1,4 +1,4 @@
-import { AppConfig, ExerciseCategory, InBodyRecord, LeaderboardEntry, PAPSAssessment, PlannedExercise, SchoolType, Student, StudentWorkoutPlan, WorkoutLog } from '../types';
+import { AppConfig, ExerciseCategory, InBodyRecord, PAPSAssessment, PlannedExercise, SchoolType, Student, StudentWorkoutPlan, WorkoutLog } from '../types';
 import { Firestore, doc, updateDoc } from 'firebase/firestore';
 import { 
   db,
@@ -1654,54 +1654,6 @@ export async function syncAllWithFirebase(): Promise<{
       isConnected: false,
     };
   }
-}
-
-
-// ================= Leaderboard Generator =================
-export function computeLeaderboard(students: Student[], logs: WorkoutLog[]): LeaderboardEntry[] {
-  return students.map((student) => {
-    const studentLogs = logs.filter(l => l.studentId === student.id);
-    const totalWorkouts = studentLogs.length;
-    
-    const cardioScore = studentLogs
-      .filter(l => l.category === 'cardio' || l.category === 'battlerope' || l.category === 'running')
-      .reduce((acc, l) => acc + l.value, 0);
-
-    const strengthScore = studentLogs
-      .filter(l => l.category === 'strength' || l.category === 'core' || l.category === 'loopband')
-      .reduce((acc, l) => acc + l.value, 0);
-
-    const flexibilityScore = studentLogs
-      .filter(l => l.category === 'flexibility')
-      .reduce((acc, l) => acc + l.value, 0);
-
-    const powerScore = studentLogs
-      .filter(l => l.category === 'power')
-      .reduce((acc, l) => acc + l.value, 0);
-
-    // 종합 체력 점수 (PAPS 총점 + 누적 운동 가산점)
-    const papsScore = student.paps?.totalScore || 50;
-    const totalScore = papsScore + totalWorkouts * 5;
-
-    const latestLog = studentLogs[0];
-    const recentActivity = latestLog ? `${latestLog.exerciseName} (${latestLog.dateFormatted})` : '기록 없음';
-
-    return {
-      studentId: student.id,
-      name: student.name,
-      grade: student.grade,
-      classNum: student.classNum,
-      number: student.number,
-      gender: student.gender,
-      totalWorkouts,
-      totalScore,
-      cardioScore,
-      strengthScore,
-      flexibilityScore,
-      powerScore,
-      recentActivity,
-    };
-  });
 }
 
 // Google Apps Script Sample Code for Teachers

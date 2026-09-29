@@ -16,7 +16,8 @@ import {
   Sparkles,
   Info,
   Layers,
-  Award
+  Award,
+  Timer
 } from 'lucide-react';
 import { ExerciseCategory, ExerciseGuide, Student, WorkoutLog } from '../types';
 import { EXERCISE_DATABASE } from '../data/exercises';
@@ -33,6 +34,7 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
   onSelectExerciseToTrack,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedBodyPart, setSelectedBodyPart] = useState<'all' | 'back' | 'shoulder' | 'chest' | 'abs' | 'legs'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeExerciseModal, setActiveExerciseModal] = useState<ExerciseGuide | null>(null);
 
@@ -47,35 +49,55 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
 
   const categories: { id: string; label: string; icon: React.ComponentType<{ className?: string }>; count?: number }[] = [
     { id: 'all', label: '전체 종목', icon: Activity },
-    { id: 'paps', label: 'e-PAPS 공식', icon: Award },
-    { id: 'battlerope', label: '가정용 배틀로프', icon: Flame },
-    { id: 'loopband', label: '루프밴드', icon: Layers },
-    { id: 'running', label: '러닝·인터벌', icon: Zap },
-    { id: 'strength', label: '맨몸 근력·복근', icon: Dumbbell },
+    { id: 'paps', label: 'PAPS 공식 종목', icon: Award },
+    { id: 'bodyweight', label: '맨몸 근력 (5개 부위)', icon: Dumbbell },
+    { id: 'chinningdipping', label: '치닝디핑 기구', icon: Layers },
+    { id: 'kettlebell', label: '캐틀벨 운동', icon: Flame },
+    { id: 'interval', label: '인터벌 훈련', icon: Zap },
+    { id: 'running', label: '러닝 & 달리기', icon: Timer },
     { id: 'stretching', label: '유연성 스트레칭', icon: Compass },
     { id: 'plyometrics', label: '순발력·플라이오', icon: Zap },
-    { id: 'core', label: '코어·자세', icon: Shield },
+  ];
+
+  const bodyParts: { id: 'all' | 'back' | 'shoulder' | 'chest' | 'abs' | 'legs'; label: string }[] = [
+    { id: 'all', label: '5대 부위 전체' },
+    { id: 'back', label: '등 (Back)' },
+    { id: 'shoulder', label: '어깨 (Shoulder)' },
+    { id: 'chest', label: '가슴 (Chest)' },
+    { id: 'abs', label: '복근 (Abs)' },
+    { id: 'legs', label: '하체 (Legs)' },
   ];
 
   const filteredExercises = EXERCISE_DATABASE.filter(ex => {
     // Category match
-    const matchCategory = selectedCategory === 'all'
-      ? true
-      : selectedCategory === 'paps'
-      ? ex.subType === 'paps_official'
-      : selectedCategory === 'battlerope'
-      ? ex.category === 'battlerope' || ex.subType === 'battle_rope'
-      : selectedCategory === 'loopband'
-      ? ex.category === 'loopband' || ex.subType === 'loop_band'
-      : selectedCategory === 'running'
-      ? ex.category === 'running' || ex.subType === 'running_drill'
-      : selectedCategory === 'strength'
-      ? ex.category === 'strength' || ex.subType === 'bodyweight_core'
-      : selectedCategory === 'stretching'
-      ? ex.category === 'stretching' || ex.category === 'flexibility' || ex.subType === 'flexibility_stretch'
-      : selectedCategory === 'plyometrics'
-      ? ex.category === 'plyometrics' || ex.category === 'power' || ex.subType === 'plyometrics'
-      : ex.category === selectedCategory;
+    let matchCategory = true;
+    if (selectedCategory === 'all') {
+      matchCategory = true;
+    } else if (selectedCategory === 'paps') {
+      matchCategory = ex.subType === 'paps_official';
+    } else if (selectedCategory === 'bodyweight') {
+      matchCategory = ex.category === 'strength' || ex.category === 'core' || (ex.subType && ex.subType.startsWith('bodyweight_'));
+    } else if (selectedCategory === 'chinningdipping') {
+      matchCategory = ex.category === 'chinningdipping' || ex.subType === 'chinning_dipping';
+    } else if (selectedCategory === 'kettlebell') {
+      matchCategory = ex.category === 'kettlebell' || ex.subType === 'kettlebell';
+    } else if (selectedCategory === 'interval') {
+      matchCategory = ex.category === 'interval' || ex.subType === 'interval_drill';
+    } else if (selectedCategory === 'running') {
+      matchCategory = ex.category === 'running' || ex.subType === 'running_drill';
+    } else if (selectedCategory === 'stretching') {
+      matchCategory = ex.category === 'stretching' || ex.category === 'flexibility' || ex.subType === 'flexibility_stretch';
+    } else if (selectedCategory === 'plyometrics') {
+      matchCategory = ex.category === 'plyometrics' || ex.category === 'power' || ex.subType === 'plyometrics';
+    } else {
+      matchCategory = ex.category === selectedCategory;
+    }
+
+    // Body part sub-match (especially when viewing bodyweight or all)
+    let matchBodyPart = true;
+    if (selectedBodyPart !== 'all') {
+      matchBodyPart = ex.bodyPart === selectedBodyPart;
+    }
 
     // Search query match
     const matchSearch = searchQuery.trim() === ''
@@ -85,8 +107,25 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
         ex.targetMuscles.some(m => m.toLowerCase().includes(searchQuery.toLowerCase())) ||
         ex.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return matchCategory && matchSearch;
+    return matchCategory && matchBodyPart && matchSearch;
   });
+
+  const getBodyPartBadge = (bodyPart?: string) => {
+    switch (bodyPart) {
+      case 'back':
+        return { label: '등 (Back)', bg: 'bg-blue-500/20 text-blue-300 border-blue-500/30' };
+      case 'shoulder':
+        return { label: '어깨 (Shoulder)', bg: 'bg-purple-500/20 text-purple-300 border-purple-500/30' };
+      case 'chest':
+        return { label: '가슴 (Chest)', bg: 'bg-rose-500/20 text-rose-300 border-rose-500/30' };
+      case 'abs':
+        return { label: '복근 (Abs)', bg: 'bg-amber-500/20 text-amber-300 border-amber-500/30' };
+      case 'legs':
+        return { label: '하체 (Legs)', bg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' };
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -99,14 +138,11 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#00B4D8]/10 border border-[#00B4D8]/30 text-[#00B4D8] text-xs font-bold shadow-sm">
               <Calendar className="w-3.5 h-3.5" />
-              <span>신안해양과학고 E-PAPS 맞춤형 운동 가이드</span>
+              <span>신안해양과학고 맞춤형 운동 가이드</span>
             </div>
             <h2 className="text-2xl font-black text-white">
               {student.name} 학생을 위한 체력요소별 트레이닝
             </h2>
-            <p className="text-xs text-slate-300">
-              e-PAPS 공식 종목, 가정용 배틀로프, 루프밴드, 러닝 인터벌, 맨몸 복근·푸쉬업, 관절별 스트레칭, 플라이오메트릭까지 단계별로 완벽 마스터하세요.
-            </p>
           </div>
 
           <div className="w-full md:w-72 bg-[#0B132B]/80 border border-slate-700/80 p-4 rounded-2xl shrink-0">
@@ -140,7 +176,12 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
                 <button
                   key={cat.id}
                   id={`cat-filter-${cat.id}`}
-                  onClick={() => setSelectedCategory(cat.id)}
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    if (cat.id !== 'bodyweight' && cat.id !== 'all') {
+                      setSelectedBodyPart('all');
+                    }
+                  }}
                   className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border ${
                     isActive
                       ? 'bg-[#00B4D8] text-[#0B132B] border-[#00B4D8] shadow-md shadow-[#00B4D8]/20'
@@ -167,6 +208,33 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
           </div>
         </div>
 
+        {/* Sub-Filter: Bodyweight 5 Muscle Groups (등, 어깨, 가슴, 복근, 하체) */}
+        {(selectedCategory === 'bodyweight' || selectedCategory === 'all') && (
+          <div className="p-3 bg-[#14213D]/90 border border-slate-800 rounded-2xl flex flex-wrap items-center gap-2">
+            <span className="text-xs font-black text-slate-300 flex items-center gap-1.5 mr-1">
+              <Dumbbell className="w-4 h-4 text-[#00B4D8]" />
+              <span>맨몸 5대 부위 균형 선택:</span>
+            </span>
+            {bodyParts.map((bp) => {
+              const isSelected = selectedBodyPart === bp.id;
+              return (
+                <button
+                  key={bp.id}
+                  id={`bodypart-filter-${bp.id}`}
+                  onClick={() => setSelectedBodyPart(bp.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border ${
+                    isSelected
+                      ? 'bg-[#00B4D8] text-[#0B132B] border-[#00B4D8] shadow-sm font-black'
+                      : 'bg-[#0B132B] text-slate-300 border-slate-700 hover:text-white hover:border-slate-600'
+                  }`}
+                >
+                  {bp.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         <div className="flex items-center justify-between text-xs text-slate-400 px-1">
           <span>
             총 <strong className="text-[#00B4D8] font-mono">{filteredExercises.length}개</strong>의 맞춤 운동 종목
@@ -180,6 +248,8 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
       {/* Exercise Grid Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredExercises.map((ex) => {
+          const bpBadge = getBodyPartBadge(ex.bodyPart);
+
           return (
             <div
               key={ex.id}
@@ -187,12 +257,30 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
               className="bg-[#14213D] border border-slate-800 hover:border-[#00B4D8]/60 rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 group"
             >
               <div>
-                {/* Exercise Header Banner (No Photos) */}
+                {/* Exercise Header Banner */}
                 <div className="p-5 bg-gradient-to-br from-[#0B132B] via-[#0D1B3A] to-[#14213D] border-b border-slate-800/80">
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
-                    <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-[#00B4D8]/15 text-[#00B4D8] border border-[#00B4D8]/30 shadow-sm">
-                      {ex.targetPaps.split(' ')[0]}
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-2.5 flex-wrap">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-[#00B4D8]/15 text-[#00B4D8] border border-[#00B4D8]/30 shadow-sm">
+                        {ex.targetPaps.split(' ')[0]}
+                      </span>
+                      {bpBadge && (
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${bpBadge.bg}`}>
+                          {bpBadge.label}
+                        </span>
+                      )}
+                      {ex.category === 'chinningdipping' && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                          치닝디핑
+                        </span>
+                      )}
+                      {ex.category === 'kettlebell' && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          캐틀벨
+                        </span>
+                      )}
+                    </div>
+
                     <div className="flex items-center gap-1.5">
                       <span className={`text-[10px] font-black px-2 py-0.5 rounded-md ${
                         ex.difficulty === '초급'
@@ -272,7 +360,7 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
         })}
       </div>
 
-      {/* Detailed Exercise Modal with Form Checkpoints (No Photos) */}
+      {/* Detailed Exercise Modal with Form Checkpoints */}
       {activeExerciseModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
           <div 
@@ -286,6 +374,21 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
                   <span className="text-xs font-bold text-[#00B4D8] px-2.5 py-1 rounded-lg bg-[#00B4D8]/10 border border-[#00B4D8]/30">
                     {activeExerciseModal.targetPaps}
                   </span>
+                  {activeExerciseModal.bodyPart && (
+                    <span className="text-xs font-bold text-blue-300 px-2.5 py-0.5 rounded-md bg-blue-500/20 border border-blue-500/30">
+                      부위: {getBodyPartBadge(activeExerciseModal.bodyPart)?.label || activeExerciseModal.bodyPart}
+                    </span>
+                  )}
+                  {activeExerciseModal.category === 'chinningdipping' && (
+                    <span className="text-xs font-bold text-indigo-300 px-2 py-0.5 rounded-md bg-indigo-500/20 border border-indigo-500/30">
+                      기구: 치닝디핑
+                    </span>
+                  )}
+                  {activeExerciseModal.category === 'kettlebell' && (
+                    <span className="text-xs font-bold text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/30">
+                      소도구: 캐틀벨
+                    </span>
+                  )}
                   <span className="text-xs font-bold text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30">
                     난이도: {activeExerciseModal.difficulty}
                   </span>
@@ -305,7 +408,7 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
               </button>
             </div>
 
-            {/* Exercise Info Summary Card (No Photo) */}
+            {/* Exercise Info Summary Card */}
             <div className="rounded-2xl border border-slate-700 bg-[#0B132B] p-4 sm:p-5 shadow-xl space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -431,4 +534,3 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
     </div>
   );
 };
-
