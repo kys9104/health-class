@@ -700,7 +700,7 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
             <div className="space-y-3">
               <input
                 type="text"
-                placeholder="운동 종목 이름, 심폐/근력/배틀로프 검색..."
+                placeholder="운동 종목 이름, 심폐/근력/캐틀벨/인터벌 검색..."
                 value={exerciseSearch}
                 onChange={(e) => setExerciseSearch(e.target.value)}
                 className="w-full bg-[#0B132B] border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[#00B4D8]"

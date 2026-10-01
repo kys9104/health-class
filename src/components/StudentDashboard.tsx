@@ -150,7 +150,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
                 { name: '심폐지구력', sub: '셔틀런', value: `${paps.cardioValue}회`, grade: paps.cardioGrade, icon: Zap, exId: 'shuttle-run-drill' },
                 { name: '근력/근지구력', sub: '윗몸말아올리기', value: `${paps.strengthValue}회`, grade: paps.strengthGrade, icon: Dumbbell, exId: 'curl-up' },
                 { name: '유연성', sub: '체전굴', value: `${paps.flexibilityValue}cm`, grade: paps.flexibilityGrade, icon: Compass, exId: 'sit-and-reach-stretch' },
-                { name: '순발력', sub: '제자리멀리뛰기', value: `${paps.powerValue}cm`, grade: paps.powerGrade, icon: Flame, exId: 'standing-broad-jump-drill' },
+                { name: '순발력', sub: '도약/순발력', value: `${paps.powerValue}cm`, grade: paps.powerGrade, icon: Flame, exId: 'plyo-power-tuck-jump' },
               ].map((domain, i) => {
                 const Icon = domain.icon;
                 const dColor = getPapsGradeColor(domain.grade);

@@ -40,7 +40,12 @@ import {
   setStudentCustomPin,
   clearStudentWorkoutLogs,
   clearStudentPaps,
+  clearStudentInBodyRecords,
+  clearStudentWorkoutPlan,
+  clearStudentAllRecords,
   clearAllWorkoutLogs,
+  clearAllStudentsRecords,
+  deleteStudent,
   updateWorkoutLog, 
   deleteWorkoutLog, 
   GOOGLE_APPS_SCRIPT_SAMPLE_CODE,
@@ -207,15 +212,15 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
     setConfirmModal({
       isOpen: true,
       title: '학생 명단 삭제',
-      message: `${student.grade}학년 ${student.classNum}반 ${student.number}번 ${student.name} 학생을 명단에서 삭제하시겠습니까?\n(기존 누적 운동 기록은 데이터 무결성을 위해 보존됩니다)`,
-      confirmLabel: '학생 삭제',
+      message: `${student.grade}학년 ${student.classNum}반 ${student.number}번 ${student.name} 학생을 명단 및 클라우드에서 삭제하시겠습니까?\n\n이 학생의 운동 기록, 인바디, 운동 계획 등 모든 데이터가 함께 정리됩니다.`,
+      confirmLabel: '학생 영구 삭제',
       confirmVariant: 'danger',
       onConfirm: () => {
-        const updated = students.filter(s => s.id !== student.id);
-        setStudents(updated);
-        saveStudents(updated);
+        deleteStudent(student.id);
+        setStudents(prev => prev.filter(s => s.id !== student.id));
+        setLogs(prev => prev.filter(l => l.studentId !== student.id));
         setConfirmModal(prev => ({ ...prev, isOpen: false }));
-        showToast(`${student.name} 학생이 명단에서 삭제되었습니다.`);
+        showToast(`${student.name} 학생이 명단 및 Firebase 클라우드에서 삭제되었습니다.`);
       },
     });
   };
@@ -225,14 +230,38 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
     setConfirmModal({
       isOpen: true,
       title: '전체 운동 기록 일괄 초기화',
-      message: `현재 저장된 모든 학생의 운동 기록(총 ${logs.length}건)을 완전히 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없으며, 모든 학생의 누적 운동 기록이 0건으로 비워집니다.`,
-      confirmLabel: '모든 기록 영구 삭제 (0건으로 초기화)',
+      message: `현재 저장된 모든 학생의 운동 기록(총 ${logs.length}건)을 완전히 삭제하시겠습니까?\n\n⚠️ 이 작업은 로컬 및 Firebase Firestore 클라우드에서 모든 학생의 누적 운동 기록을 0건으로 비웁니다.`,
+      confirmLabel: '모든 운동 기록 영구 삭제',
       confirmVariant: 'danger',
       onConfirm: () => {
         clearAllWorkoutLogs();
         setLogs([]);
         setConfirmModal(prev => ({ ...prev, isOpen: false }));
-        showToast('전체 운동 기록이 성공적으로 모두 초기화되었습니다.');
+        showToast('전체 학생의 누적 운동 기록이 영구 초기화(0건)되었습니다.');
+      },
+    });
+  };
+
+  // Handle Clear All Student Data (Logs, PAPS, InBody, Plans)
+  const handleClearAllStudentData = () => {
+    setConfirmModal({
+      isOpen: true,
+      title: '모든 학생 기록 완전 일괄 초기화',
+      message: `모든 학생의 누적 운동 기록, PAPS 평가치, 인바디 검사 결과, 맞춤 운동 계획을 모두 초기화하시겠습니까?\n\n⚠️ 학생 명단과 PIN(비밀번호)은 그대로 유지되며, 학생들의 모든 기록이 새 학기 초기 상태로 깨끗하게 비워집니다.\n(로컬 저장소 및 Firebase 클라우드 모두 즉시 초기화)`,
+      confirmLabel: '모든 학생 데이터 일괄 초기화 실행',
+      confirmVariant: 'danger',
+      onConfirm: () => {
+        clearAllStudentsRecords();
+        setLogs([]);
+        if (setInbodyRecords) setInbodyRecords([]);
+        if (setWorkoutPlans) setWorkoutPlans([]);
+        setStudents(prev => prev.map(s => {
+          const c = { ...s };
+          delete c.paps;
+          return c;
+        }));
+        setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        showToast('모든 학생의 누적 기록(운동, PAPS, 인바디, 계획)이 성공적으로 초기화되었습니다.');
       },
     });
   };
@@ -530,7 +559,16 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 title="등록된 모든 학생의 비밀번호를 0000으로 일괄 초기화"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>전체 PIN 0000 초기화</span>
+                <span>전체 PIN 초기화</span>
+              </button>
+              <button
+                id="bulk-reset-all-data-btn"
+                onClick={handleClearAllStudentData}
+                className="px-3 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-[#FF4B4B] text-xs font-bold flex items-center gap-1.5 transition whitespace-nowrap"
+                title="모든 학생의 누적 운동 기록, PAPS, 인바디, 계획 일괄 완전 초기화"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>전체 학생 기록 초기화</span>
               </button>
               <button
                 id="open-bulk-register-modal-btn"
@@ -598,6 +636,17 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                         )}
                       </td>
                       <td className="px-4 py-3 text-right space-x-1.5 whitespace-nowrap">
+                        <button
+                          id={`manage-plan-inbody-${student.id}-btn`}
+                          onClick={() => {
+                            setActiveTab('overview');
+                          }}
+                          className="px-2 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold transition inline-flex items-center gap-1"
+                          title="이 학생의 운동 계획 및 인바디 작성 내용 수정/삭제"
+                        >
+                          <Activity className="w-3 h-3" />
+                          <span>계획/인바디</span>
+                        </button>
                         <button
                           id={`preview-student-${student.id}-btn`}
                           onClick={() => {
@@ -1416,7 +1465,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 type="button"
                 onClick={() => {
                   const deletedCount = clearStudentWorkoutLogs(recordResetStudent.id);
-                  setLogs(prev => prev.filter(l => l.studentId !== recordResetStudent.id));
+                  setLogs(prev => prev.filter(l => l.studentId !== recordResetStudent.id && !l.studentId?.includes(recordResetStudent.id)));
                   showToast(`${recordResetStudent.name} 학생의 운동 기록 ${deletedCount}건이 삭제되었습니다.`);
                   setRecordResetStudent(null);
                 }}
@@ -1424,10 +1473,10 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
               >
                 <div>
                   <div className="text-xs font-bold text-white group-hover:text-[#00B4D8] transition">
-                    운동 기록만 전체 삭제
+                    1. 운동 기록만 전체 삭제
                   </div>
                   <div className="text-[11px] text-slate-400 mt-0.5">
-                    누적된 운동 세션 기록({logs.filter(l => l.studentId === recordResetStudent.id).length}건)만 삭제하며 PAPS 등급은 유지합니다.
+                    누적된 운동 세션 기록({logs.filter(l => l.studentId === recordResetStudent.id || l.studentId?.includes(recordResetStudent.id)).length}건)만 삭제하며 PAPS/인바디/계획은 유지합니다.
                   </div>
                 </div>
                 <Trash2 className="w-4 h-4 text-slate-400 group-hover:text-[#FF4B4B] shrink-0 ml-2" />
@@ -1446,7 +1495,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
               >
                 <div>
                   <div className="text-xs font-bold text-white group-hover:text-amber-300 transition">
-                    PAPS 건강체력평가 기록 초기화
+                    2. PAPS 건강체력평가 기록 초기화
                   </div>
                   <div className="text-[11px] text-slate-400 mt-0.5">
                     PAPS 측정 등급과 점수를 '미측정' 상태로 초기화합니다.
@@ -1455,25 +1504,78 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 <RotateCcw className="w-4 h-4 text-slate-400 group-hover:text-amber-400 shrink-0 ml-2" />
               </button>
 
-              {/* Option 3: Clear all records */}
+              {/* Option 3: Clear InBody records */}
               <button
                 type="button"
                 onClick={() => {
-                  const deletedCount = clearStudentWorkoutLogs(recordResetStudent.id);
-                  clearStudentPaps(recordResetStudent.id);
-                  setLogs(prev => prev.filter(l => l.studentId !== recordResetStudent.id));
+                  clearStudentInBodyRecords(recordResetStudent.id);
+                  if (setInbodyRecords) {
+                    setInbodyRecords(prev => prev.filter(r => r.studentId !== recordResetStudent.id && !r.studentId?.includes(recordResetStudent.id)));
+                  }
+                  showToast(`${recordResetStudent.name} 학생의 인바디 검사 기록이 모두 초기화되었습니다.`);
+                  setRecordResetStudent(null);
+                }}
+                className="w-full p-3.5 rounded-2xl bg-[#0B132B] hover:bg-slate-800 border border-slate-700 text-left transition flex items-center justify-between group"
+              >
+                <div>
+                  <div className="text-xs font-bold text-white group-hover:text-emerald-300 transition">
+                    3. 인바디 검사 기록 전체 삭제
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">
+                    이 학생의 모든 인바디 측정 결과(골격근량, 체지방률 등)를 삭제합니다.
+                  </div>
+                </div>
+                <Trash2 className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 shrink-0 ml-2" />
+              </button>
+
+              {/* Option 4: Clear Workout Plan */}
+              <button
+                type="button"
+                onClick={() => {
+                  clearStudentWorkoutPlan(recordResetStudent.id);
+                  if (setWorkoutPlans) {
+                    setWorkoutPlans(prev => prev.filter(p => p.studentId !== recordResetStudent.id && !p.studentId?.includes(recordResetStudent.id)));
+                  }
+                  showToast(`${recordResetStudent.name} 학생의 맞춤 체력 운동 계획이 초기화되었습니다.`);
+                  setRecordResetStudent(null);
+                }}
+                className="w-full p-3.5 rounded-2xl bg-[#0B132B] hover:bg-slate-800 border border-slate-700 text-left transition flex items-center justify-between group"
+              >
+                <div>
+                  <div className="text-xs font-bold text-white group-hover:text-purple-300 transition">
+                    4. 맞춤 체력 운동 계획 초기화
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">
+                    학생이 수립한 주간 운동 종목 및 목표 플랜을 깨끗이 비웁니다.
+                  </div>
+                </div>
+                <Trash2 className="w-4 h-4 text-slate-400 group-hover:text-purple-400 shrink-0 ml-2" />
+              </button>
+
+              {/* Option 5: Clear all records */}
+              <button
+                type="button"
+                onClick={() => {
+                  clearStudentAllRecords(recordResetStudent.id);
+                  setLogs(prev => prev.filter(l => l.studentId !== recordResetStudent.id && !l.studentId?.includes(recordResetStudent.id)));
                   setStudents(prev => prev.map(s => (s.id === recordResetStudent.id ? { ...s, paps: undefined } : s)));
-                  showToast(`${recordResetStudent.name} 학생의 운동(${deletedCount}건) 및 PAPS 기록이 모두 초기화되었습니다.`);
+                  if (setInbodyRecords) {
+                    setInbodyRecords(prev => prev.filter(r => r.studentId !== recordResetStudent.id && !r.studentId?.includes(recordResetStudent.id)));
+                  }
+                  if (setWorkoutPlans) {
+                    setWorkoutPlans(prev => prev.filter(p => p.studentId !== recordResetStudent.id && !p.studentId?.includes(recordResetStudent.id)));
+                  }
+                  showToast(`${recordResetStudent.name} 학생의 모든 누적 기록(운동, PAPS, 인바디, 계획)이 완전 초기화되었습니다.`);
                   setRecordResetStudent(null);
                 }}
                 className="w-full p-3.5 rounded-2xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-left transition flex items-center justify-between group"
               >
                 <div>
                   <div className="text-xs font-black text-red-300">
-                    운동 기록 및 PAPS 기록 모두 완전 초기화
+                    5. 모든 기록(운동·PAPS·인바디·계획) 완전 초기화
                   </div>
                   <div className="text-[11px] text-slate-300 mt-0.5">
-                    이 학생의 모든 누적 기록을 새 학기 상태로 깨끗이 초기화합니다.
+                    이 학생의 모든 누적 기록을 새 학기 초기 상태로 깨끗이 초기화합니다.
                   </div>
                 </div>
                 <Trash2 className="w-4 h-4 text-[#FF4B4B] shrink-0 ml-2" />

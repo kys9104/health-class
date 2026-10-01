@@ -130,12 +130,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 id="navbar-firebase-sync-btn"
                 onClick={onSyncFirebase}
                 disabled={isSyncing}
-                title="Firebase 클라우드 실시간 동기화"
+                title={isFirebaseConnected ? 'Firebase 클라우드 실시간 동기화 상태: 정상' : '로컬 저장소 안전 모드 (클라우드 일일 할당량 대기 또는 오프라인)'}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#14213D] border border-slate-700/80 text-[11px] font-bold text-slate-300 hover:text-white hover:border-[#00B4D8] transition shrink-0"
               >
                 <span className={`w-2 h-2 rounded-full ${isFirebaseConnected ? 'bg-emerald-400' : 'bg-amber-400'} ${isSyncing ? 'animate-ping' : ''}`} />
                 <Cloud className="w-3.5 h-3.5 text-[#00B4D8]" />
-                <span className="hidden sm:inline">{isSyncing ? '동기화 중...' : 'Firebase'}</span>
+                <span className="hidden sm:inline">{isSyncing ? '동기화 중...' : isFirebaseConnected ? 'Firebase' : '로컬 모드'}</span>
               </button>
             )}
 

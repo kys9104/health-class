@@ -557,7 +557,7 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
       '정수리가 손 사이가 아닌 앞쪽 삼각지점에 닿도록 사선으로 내려갑니다.'
     ],
     steps: [
-      '팔굽혀펴기 자세에서 발을 손 쪽으로 걸어와 엉덩이를 천장으로 높이 솟구치게 합니다.',
+      '엎드린 하이 플랭크 자세에서 발을 손 쪽으로 걸어와 엉덩이를 천장으로 높이 솟구치게 합니다.',
       '팔꿈치를 45도 각도로 접으며 정수리가 양손 앞 꼭짓점에 닿을 듯 천천히 내려갑니다.',
       '손바닥 전체로 바닥을 강하게 밀어내며 엉덩이를 원래 높이로 복귀합니다.'
     ],
@@ -609,37 +609,6 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
   },
 
   // --- [맨몸 가슴 운동 (Chest)] ---
-  {
-    id: 'bodyweight-standard-knee-pushup',
-    name: '스탠다드 & 니(Knee) 푸쉬업',
-    category: 'strength',
-    subType: 'bodyweight_chest',
-    bodyPart: 'chest',
-    targetPaps: '근력/근지구력 (가슴 전면 & 팔 삼두근 상체 복합)',
-    difficulty: '초급',
-    targetMuscles: ['대흉근 전체', '상완삼두근', '전면삼각근', '복근'],
-    description: '초보자부터 숙련자까지 무릎을 대거나 정자세로 상체 미는 힘을 극대화하는 대표 가슴 운동입니다.',
-    safetyNotes: [
-      '허리가 바닥 쪽으로 꺾이지 않도록 엉덩이와 배에 힘을 단단히 줍니다.'
-    ],
-    steps: [
-      '양손을 어깨너비 1.2배로 짚고 정자세 플랭크(초보자는 무릎 터치)를 잡습니다.',
-      '팔꿈치를 45도 각도로 벌리며 가슴이 바닥 5cm 전까지 천천히 내려갑니다.',
-      '바닥을 힘껏 밀어 올리며 가슴 중앙을 쥐어짭니다.'
-    ],
-    recommendedRepsOrTime: '15~25회 x 3세트',
-    mode: 'counter',
-    defaultGoal: 20,
-    unit: '회',
-    iconName: 'Shield',
-    guideAnimationType: 'push-up',
-    calorieBurnPerMin: 7,
-    imageUrl: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['팔꿈치 45도 외전', '가슴 바닥 밀착', '머리-발목 일직선'],
-    checkpoints: [
-      { title: '견갑 움직임', desc: '내려갈 때 자연스럽게 모이고 밀어낼 때 펴집니다.', isWarning: false }
-    ]
-  },
   {
     id: 'bodyweight-diamond-pushup',
     name: '다이아몬드 푸쉬업 (Diamond Push-Up)',

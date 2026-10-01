@@ -741,7 +741,7 @@ export const InbodyDashboard: React.FC<InbodyDashboardProps> = ({
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="예: 방학 동안 배틀로프 운동 후 체지방 2% 감량 목표, 단백질 섭취 증량 등"
+                  placeholder="예: 방학 동안 인터벌 러닝 운동 후 체지방 2% 감량 목표, 단백질 섭취 증량 등"
                   className="w-full bg-[#0B132B] border border-slate-700 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#00B4D8]"
                 />
               </div>

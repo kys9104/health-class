@@ -6,14 +6,22 @@ import {
   fetchWorkoutLogsFromFirebase,
   saveWorkoutLogToFirebase,
   deleteWorkoutLogFromFirebase,
+  clearAllWorkoutLogsFromFirebase,
+  clearStudentWorkoutLogsFromFirebase,
   fetchInBodyRecordsFromFirebase,
   saveInBodyRecordToFirebase,
   deleteInBodyRecordFromFirebase,
+  clearAllInBodyRecordsFromFirebase,
+  clearStudentInBodyRecordsFromFirebase,
   fetchWorkoutPlansFromFirebase,
   saveWorkoutPlanToFirebase,
   deleteWorkoutPlanFromFirebase,
+  clearAllWorkoutPlansFromFirebase,
   fetchStudentsFromFirebase,
-  saveStudentToFirebase
+  saveStudentToFirebase,
+  deleteStudentFromFirebase,
+  clearStudentPapsInFirebase,
+  clearAllStudentsPapsInFirebase
 } from './firebase';
 
 const STORAGE_KEYS = {
@@ -26,7 +34,7 @@ const STORAGE_KEYS = {
   TEACHER_AUTH: 'health_fitness_teacher_auth_shinan_v2',
 };
 
-// 신안해양과학고등학교 전체 학생 명단 (총 69명, 초기 PIN: 0000)
+// 신안해양과학고등학교 전체 학생 명단 (총 69명, 초기 PIN: 0000, 모든 예시 기록 제거 완료)
 const INITIAL_DEMO_STUDENTS: Student[] = [
   // ================= 1학년 1반 (19명) =================
   {
@@ -39,31 +47,6 @@ const INITIAL_DEMO_STUDENTS: Student[] = [
     gender: 'M',
     pin: '0000',
     isInitialPin: true,
-    paps: {
-      updatedAt: new Date(Date.now() - 86400000 * 5).toISOString(),
-      cardioType: 'shuttleRun',
-      cardioValue: 72,
-      cardioGrade: 1,
-      cardioScore: 20,
-      strengthType: 'curlUp',
-      strengthValue: 60,
-      strengthGrade: 1,
-      strengthScore: 20,
-      flexibilityValue: 19.0,
-      flexibilityGrade: 1,
-      flexibilityScore: 20,
-      powerType: 'standingJump',
-      powerValue: 235,
-      powerGrade: 1,
-      powerScore: 20,
-      height: 174,
-      weight: 65,
-      bmi: 21.5,
-      bmiGrade: 1,
-      bmiScore: 20,
-      totalScore: 100,
-      totalGrade: 1,
-    },
     createdAt: new Date(Date.now() - 86400000 * 14).toISOString(),
   },
   {
@@ -76,31 +59,6 @@ const INITIAL_DEMO_STUDENTS: Student[] = [
     gender: 'M',
     pin: '0000',
     isInitialPin: true,
-    paps: {
-      updatedAt: new Date(Date.now() - 86400000 * 4).toISOString(),
-      cardioType: 'shuttleRun',
-      cardioValue: 58,
-      cardioGrade: 2,
-      cardioScore: 16,
-      strengthType: 'curlUp',
-      strengthValue: 48,
-      strengthGrade: 2,
-      strengthScore: 16,
-      flexibilityValue: 14.5,
-      flexibilityGrade: 2,
-      flexibilityScore: 16,
-      powerType: 'standingJump',
-      powerValue: 215,
-      powerGrade: 2,
-      powerScore: 16,
-      height: 172,
-      weight: 64,
-      bmi: 21.6,
-      bmiGrade: 1,
-      bmiScore: 20,
-      totalScore: 84,
-      totalGrade: 1,
-    },
     createdAt: new Date(Date.now() - 86400000 * 14).toISOString(),
   },
   {
@@ -1116,6 +1074,17 @@ export function getStoredStudents(): Student[] {
       return sorted;
     }
     const parsed: Student[] = JSON.parse(raw);
+    // Cleanup any legacy demo paps data from 곽승준 or 김건우
+    let cleaned = false;
+    parsed.forEach(s => {
+      if (s.paps && ((s.id.includes('곽승준') && s.paps.totalScore === 100) || (s.id.includes('김건우') && s.paps.totalScore === 84))) {
+        delete s.paps;
+        cleaned = true;
+      }
+    });
+    if (cleaned) {
+      localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(parsed));
+    }
     return sortStudentsNumerically(parsed);
   } catch {
     return sortStudentsNumerically(INITIAL_DEMO_STUDENTS);
@@ -1125,11 +1094,17 @@ export function getStoredStudents(): Student[] {
 export function saveStudents(students: Student[]): void {
   const sorted = sortStudentsNumerically(students);
   localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(sorted));
-  
-  // Sync to Firebase Firestore
-  sorted.forEach((student) => {
-    saveStudentToFirebase(student).catch(e => console.warn('Firestore student sync notice:', e));
-  });
+}
+
+export function deleteStudent(studentId: string): boolean {
+  const students = getStoredStudents();
+  const filtered = students.filter(s => s.id !== studentId);
+  if (filtered.length === students.length) return false;
+
+  saveStudents(filtered);
+  deleteStudentFromFirebase(studentId).catch(e => console.warn(e));
+  clearStudentAllRecords(studentId);
+  return true;
 }
 
 export function findStudentForLogin(
@@ -1153,6 +1128,7 @@ export function updateStudentPin(studentId: string, newPin: string): boolean {
   students[index].pin = newPin;
   students[index].isInitialPin = false;
   saveStudents(students);
+  saveStudentToFirebase(students[index]).catch(() => {});
   return true;
 }
 
@@ -1164,6 +1140,7 @@ export function resetStudentPinToInitial(studentId: string): boolean {
   students[index].pin = '0000';
   students[index].isInitialPin = true;
   saveStudents(students);
+  saveStudentToFirebase(students[index]).catch(() => {});
   return true;
 }
 
@@ -1186,29 +1163,57 @@ export function setStudentCustomPin(studentId: string, newPin: string): boolean 
   students[index].pin = newPin;
   students[index].isInitialPin = newPin === '0000';
   saveStudents(students);
+  saveStudentToFirebase(students[index]).catch(() => {});
   return true;
 }
 
 export function clearStudentWorkoutLogs(studentId: string): number {
   const logs = getStoredWorkoutLogs();
-  const filtered = logs.filter(l => l.studentId !== studentId);
+  const filtered = logs.filter(l => l.studentId !== studentId && !l.studentId?.includes(studentId));
   const deletedCount = logs.length - filtered.length;
   saveWorkoutLogs(filtered);
+  clearStudentWorkoutLogsFromFirebase(studentId).catch(e => console.warn('Firebase student logs clear notice:', e));
   return deletedCount;
 }
 
 export function clearStudentPaps(studentId: string): boolean {
   const students = getStoredStudents();
-  const index = students.findIndex(s => s.id === studentId);
+  const index = students.findIndex(s => s.id === studentId || s.id.includes(studentId));
   if (index === -1) return false;
 
   delete students[index].paps;
   saveStudents(students);
+  clearStudentPapsInFirebase(studentId).catch(e => console.warn('Firebase student PAPS clear notice:', e));
   return true;
 }
 
 export function clearAllWorkoutLogs(): void {
   saveWorkoutLogs([]);
+  clearAllWorkoutLogsFromFirebase().catch(e => console.warn('Firebase clear all logs notice:', e));
+}
+
+export function clearStudentAllRecords(studentId: string): void {
+  clearStudentWorkoutLogs(studentId);
+  clearStudentPaps(studentId);
+  clearStudentInBodyRecords(studentId);
+  clearStudentWorkoutPlan(studentId);
+}
+
+export function clearAllStudentsRecords(): void {
+  clearAllWorkoutLogs();
+  saveInBodyRecords([]);
+  clearAllInBodyRecordsFromFirebase().catch(() => {});
+  saveWorkoutPlans([]);
+  clearAllWorkoutPlansFromFirebase().catch(() => {});
+  
+  const students = getStoredStudents();
+  const resetPaps = students.map(s => {
+    const copy = { ...s };
+    delete copy.paps;
+    return copy;
+  });
+  saveStudents(resetPaps);
+  clearAllStudentsPapsInFirebase().catch(() => {});
 }
 
 export function saveStudentPapsAssessment(studentId: string, paps: PAPSAssessment): boolean {
@@ -1218,6 +1223,7 @@ export function saveStudentPapsAssessment(studentId: string, paps: PAPSAssessmen
 
   students[index].paps = paps;
   saveStudents(students);
+  saveStudentToFirebase(students[index]).catch(() => {});
   return true;
 }
 
@@ -1582,15 +1588,13 @@ export async function syncAllWithFirebase(): Promise<{
       fetchStudentsFromFirebase(),
     ]);
 
-    // 2. Synchronize Workout Logs
+    // 2. Synchronize Workout Logs (pure merge, no write loops)
     const localLogs = getStoredWorkoutLogs();
     const logMap = new Map<string, WorkoutLog>();
     remoteLogs.forEach(l => logMap.set(l.id, l));
     localLogs.forEach(l => {
       if (!logMap.has(l.id)) {
         logMap.set(l.id, l);
-        // Upload local to Firebase
-        saveWorkoutLogToFirebase(l).catch(() => {});
       }
     });
     const mergedLogs = Array.from(logMap.values())
@@ -1598,14 +1602,13 @@ export async function syncAllWithFirebase(): Promise<{
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     saveWorkoutLogs(mergedLogs);
 
-    // 3. Synchronize InBody Records
+    // 3. Synchronize InBody Records (pure merge, no write loops)
     const localInbody = getStoredInBodyRecords();
     const inbodyMap = new Map<string, InBodyRecord>();
     remoteInbody.forEach(r => inbodyMap.set(r.id, r));
     localInbody.forEach(r => {
       if (!inbodyMap.has(r.id)) {
         inbodyMap.set(r.id, r);
-        saveInBodyRecordToFirebase(r).catch(() => {});
       }
     });
     const mergedInbody = Array.from(inbodyMap.values()).sort(
@@ -1613,14 +1616,13 @@ export async function syncAllWithFirebase(): Promise<{
     );
     saveInBodyRecords(mergedInbody);
 
-    // 4. Synchronize Workout Plans
+    // 4. Synchronize Workout Plans (pure merge, no write loops)
     const localPlans = getStoredWorkoutPlans();
     const planMap = new Map<string, StudentWorkoutPlan>();
     remotePlans.forEach(p => planMap.set(p.studentId, p));
     localPlans.forEach(p => {
       if (!planMap.has(p.studentId)) {
         planMap.set(p.studentId, p);
-        saveWorkoutPlanToFirebase(p).catch(() => {});
       }
     });
     const mergedPlans = Array.from(planMap.values());
@@ -1631,11 +1633,16 @@ export async function syncAllWithFirebase(): Promise<{
     const studentMap = new Map<string, Student>();
     localStudents.forEach(s => studentMap.set(s.id, s));
     remoteStudents.forEach(remoteS => {
+      // Clean legacy demo paps from Firebase remote if any
+      if (remoteS.paps && ((remoteS.id.includes('곽승준') && remoteS.paps.totalScore === 100) || (remoteS.id.includes('김건우') && remoteS.paps.totalScore === 84))) {
+        delete remoteS.paps;
+      }
       const existing = studentMap.get(remoteS.id);
       studentMap.set(remoteS.id, existing ? { ...existing, ...remoteS } : remoteS);
     });
     const mergedStudents = Array.from(studentMap.values());
-    saveStudents(mergedStudents);
+    const sortedStudents = sortStudentsNumerically(mergedStudents);
+    localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(sortedStudents));
 
     return {
       students: mergedStudents,
@@ -1645,7 +1652,7 @@ export async function syncAllWithFirebase(): Promise<{
       isConnected: true,
     };
   } catch (err) {
-    console.warn('Firebase full sync error notice:', err);
+    console.warn('Firebase sync status notice:', err);
     return {
       students: getStoredStudents(),
       logs: getStoredWorkoutLogs(),

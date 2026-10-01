@@ -104,9 +104,13 @@ export default function App() {
         saveWorkoutPlans(remotePlans);
       },
       onStudentsChange: (remoteStudents) => {
+        if (!remoteStudents || remoteStudents.length === 0) return;
         const sorted = sortStudentsNumerically(remoteStudents);
         setStudents(sorted);
         saveStudents(sorted);
+      },
+      onQuotaExceeded: () => {
+        setIsFirebaseConnected(false);
       },
     });
 
