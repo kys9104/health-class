@@ -17,7 +17,8 @@ import {
   Info,
   Layers,
   Award,
-  Timer
+  Timer,
+  CircleDot
 } from 'lucide-react';
 import { ExerciseCategory, ExerciseGuide, Student, WorkoutLog } from '../types';
 import { EXERCISE_DATABASE } from '../data/exercises';
@@ -53,10 +54,11 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
     { id: 'bodyweight', label: '맨몸 근력 (5개 부위)', icon: Dumbbell },
     { id: 'chinningdipping', label: '치닝디핑 기구', icon: Layers },
     { id: 'kettlebell', label: '캐틀벨 운동', icon: Flame },
+    { id: 'medicineball', label: '메디신볼 운동', icon: CircleDot },
+    { id: 'battlerope', label: '홈트 배틀로프', icon: Zap },
     { id: 'interval', label: '인터벌 훈련', icon: Zap },
     { id: 'running', label: '러닝 & 달리기', icon: Timer },
     { id: 'stretching', label: '유연성 스트레칭', icon: Compass },
-    { id: 'plyometrics', label: '순발력·플라이오', icon: Zap },
   ];
 
   const bodyParts: { id: 'all' | 'back' | 'shoulder' | 'chest' | 'abs' | 'legs'; label: string }[] = [
@@ -81,6 +83,10 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
       matchCategory = ex.category === 'chinningdipping' || ex.subType === 'chinning_dipping';
     } else if (selectedCategory === 'kettlebell') {
       matchCategory = ex.category === 'kettlebell' || ex.subType === 'kettlebell';
+    } else if (selectedCategory === 'medicineball') {
+      matchCategory = ex.category === 'medicineball' || ex.subType === 'medicine_ball';
+    } else if (selectedCategory === 'battlerope') {
+      matchCategory = ex.category === 'battlerope' || ex.subType === 'battle_rope';
     } else if (selectedCategory === 'interval') {
       matchCategory = ex.category === 'interval' || ex.subType === 'interval_drill';
     } else if (selectedCategory === 'running') {
@@ -279,6 +285,16 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
                           캐틀벨
                         </span>
                       )}
+                      {ex.category === 'medicineball' && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-orange-500/20 text-orange-300 border border-orange-500/30">
+                          메디신볼
+                        </span>
+                      )}
+                      {ex.category === 'battlerope' && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                          홈트 배틀로프
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-1.5">
@@ -387,6 +403,16 @@ export const ExerciseGuideView: React.FC<ExerciseGuideViewProps> = ({
                   {activeExerciseModal.category === 'kettlebell' && (
                     <span className="text-xs font-bold text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/30">
                       소도구: 캐틀벨
+                    </span>
+                  )}
+                  {activeExerciseModal.category === 'medicineball' && (
+                    <span className="text-xs font-bold text-orange-300 px-2 py-0.5 rounded-md bg-orange-500/20 border border-orange-500/30">
+                      소도구: 메디신볼
+                    </span>
+                  )}
+                  {activeExerciseModal.category === 'battlerope' && (
+                    <span className="text-xs font-bold text-cyan-300 px-2 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-500/30">
+                      홈트레이닝: 배틀로프
                     </span>
                   )}
                   <span className="text-xs font-bold text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30">

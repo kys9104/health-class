@@ -135,7 +135,7 @@ export const PapsAssessmentView: React.FC<PapsAssessmentViewProps> = ({
       step: 1,
       min: 50,
       max: 320,
-      recommendedExId: 'plyo-power-tuck-jump',
+      recommendedExId: 'medball-slam',
     },
   ];
 

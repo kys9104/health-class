@@ -67,6 +67,7 @@ export type ExerciseCategory =
   | 'bodyweight'
   | 'chinningdipping'
   | 'kettlebell'
+  | 'medicineball'
   | 'interval'
   | 'flexibility' 
   | 'power' 
@@ -101,6 +102,7 @@ export interface ExerciseGuide {
     | 'bodyweight_legs'
     | 'chinning_dipping'
     | 'kettlebell'
+    | 'medicine_ball'
     | 'flexibility_stretch' 
     | 'plyometrics' 
     | 'battle_rope';

@@ -743,7 +743,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 { id: 'dashboard', label: '📊 1. 개인 대시보드 & PAPS 차트', icon: Activity },
                 { id: 'plan', label: '📅 2. 개인 맞춤 운동 계획', icon: Calendar },
                 { id: 'inbody', label: '⚖️ 3. 인바디 검사 & 체성분 변화', icon: Scale },
-                { id: 'guide', label: '🌀 4. 맞춤운동 가이드 (맨몸5대부위/치닝디핑/캐틀벨/인터벌)', icon: Layers },
+                { id: 'guide', label: '🌀 4. 맞춤운동 가이드 (맨몸/치닝디핑/캐틀벨/메디신볼/배틀로프)', icon: Layers },
                 { id: 'paps', label: '📋 5. PAPS 5종 측정 & 등급 계산기', icon: Award },
                 { id: 'tracker', label: '⏱️ 6. 실시간 운동 측정기 & 타이머', icon: Zap },
               ].map(sub => {

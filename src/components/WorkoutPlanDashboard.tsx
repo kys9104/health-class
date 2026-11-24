@@ -303,7 +303,19 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
 
   // Filtered exercises for add modal
   const filteredDatabase = EXERCISE_DATABASE.filter(ex => {
-    if (selectedCategoryFilter !== 'all' && ex.category !== selectedCategoryFilter) return false;
+    if (selectedCategoryFilter !== 'all') {
+      if (selectedCategoryFilter === 'strength') {
+        if (ex.category !== 'strength' && ex.category !== 'core' && !(ex.subType && ex.subType.startsWith('bodyweight_'))) return false;
+      } else if (selectedCategoryFilter === 'flexibility') {
+        if (ex.category !== 'flexibility' && ex.category !== 'stretching') return false;
+      } else if (selectedCategoryFilter === 'power') {
+        if (ex.category !== 'power' && ex.category !== 'plyometrics') return false;
+      } else if (selectedCategoryFilter === 'cardio') {
+        if (ex.category !== 'cardio' && ex.category !== 'running') return false;
+      } else if (ex.category !== selectedCategoryFilter) {
+        return false;
+      }
+    }
     if (exerciseSearch) {
       const q = exerciseSearch.toLowerCase();
       return ex.name.toLowerCase().includes(q) || ex.targetPaps.toLowerCase().includes(q);
@@ -425,11 +437,14 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
                       <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-[#0B132B] text-[#00B4D8] border border-slate-800">
                         {item.category === 'chinningdipping' ? '치닝디핑' :
                          item.category === 'kettlebell' ? '캐틀벨' :
+                         item.category === 'medicineball' ? '메디신볼' :
+                         item.category === 'battlerope' ? '홈트 배틀로프' :
                          item.category === 'interval' ? '인터벌 훈련' :
+                         item.category === 'running' ? '러닝' :
                          item.category === 'cardio' ? '심폐지구력' :
-                         item.category === 'strength' ? '근력/맨몸' :
-                         item.category === 'flexibility' ? '유연성' :
-                         item.category === 'power' ? '순발력' : '체력 운동'}
+                         item.category === 'strength' || item.category === 'core' ? '근력/맨몸' :
+                         item.category === 'flexibility' || item.category === 'stretching' ? '유연성' :
+                         item.category === 'power' || item.category === 'plyometrics' ? '순발력' : '체력 운동'}
                       </span>
 
                       <div className="flex items-center gap-1.5">
@@ -700,7 +715,7 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
             <div className="space-y-3">
               <input
                 type="text"
-                placeholder="운동 종목 이름, 심폐/근력/캐틀벨/인터벌 검색..."
+                placeholder="운동 종목 이름, 심폐/근력/캐틀벨/메디신볼/배틀로프/인터벌 검색..."
                 value={exerciseSearch}
                 onChange={(e) => setExerciseSearch(e.target.value)}
                 className="w-full bg-[#0B132B] border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[#00B4D8]"
@@ -712,10 +727,11 @@ export const WorkoutPlanDashboard: React.FC<WorkoutPlanDashboardProps> = ({
                   { id: 'strength', label: '맨몸 5대 부위' },
                   { id: 'chinningdipping', label: '치닝디핑' },
                   { id: 'kettlebell', label: '캐틀벨' },
+                  { id: 'medicineball', label: '메디신볼' },
+                  { id: 'battlerope', label: '홈트 배틀로프' },
                   { id: 'interval', label: '인터벌 훈련' },
-                  { id: 'cardio', label: '심폐지구력' },
+                  { id: 'cardio', label: '심폐·러닝' },
                   { id: 'flexibility', label: '유연성' },
-                  { id: 'power', label: '순발력' },
                 ].map(cat => (
                   <button
                     key={cat.id}

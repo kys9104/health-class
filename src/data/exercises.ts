@@ -478,38 +478,6 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
 
   // --- [맨몸 등 운동 (Back)] ---
   {
-    id: 'bodyweight-superman-w-row',
-    name: '슈퍼맨 W-로우 & 백 익스텐션',
-    category: 'strength',
-    subType: 'bodyweight_back',
-    bodyPart: 'back',
-    targetPaps: '근력/근지구력 (척추기립근·광배근·굽은등 교정)',
-    difficulty: '초급',
-    targetMuscles: ['척추기립근', '광배근', '능형근', '둔근'],
-    description: '바닥에 엎드린 상태에서 상체와 하체를 동시에 들어 올리며 팔꿈치를 W자로 강하게 당겨 등의 모든 근육을 수축시키는 최고의 맨몸 등 운동입니다.',
-    safetyNotes: [
-      '목을 과도하게 뒤로 꺾지 말고 시선은 바닥 30cm 앞을 유지합니다.',
-      '허리에 찌릿한 통증이 발생하면 들어 올리는 높이를 조절합니다.'
-    ],
-    steps: [
-      '바닥에 엎드려 양팔을 앞으로 뻗고 다리를 곧게 모읍니다.',
-      '상체와 다리를 바닥에서 15~20cm 들어 올림과 동시에 팔꿈치를 옆구리 쪽으로 W자 모양으로 강하게 당깁니다.',
-      '날개뼈 사이에 연필을 끼우듯 조인 채 2초간 정지 후 천천히 시작 자세로 돌아옵니다.'
-    ],
-    recommendedRepsOrTime: '15~20회 x 3세트',
-    mode: 'counter',
-    defaultGoal: 15,
-    unit: '회',
-    iconName: 'Activity',
-    guideAnimationType: 'pull',
-    calorieBurnPerMin: 6,
-    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['W자 팔꿈치 궤적', '날개뼈 강한 압축', '2초 수축 유지'],
-    checkpoints: [
-      { title: '견갑 조임', desc: '상체만 들지 말고 날개뼈를 뒤아래로 확실히 모아줍니다.', isWarning: false }
-    ]
-  },
-  {
     id: 'bodyweight-prone-cobra',
     name: '프론 코브라 & 견갑골 리트랙션',
     category: 'strength',
@@ -897,37 +865,6 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
       { title: '무릎 흔들림 방지', desc: '앞무릎이 안쪽으로 돌아가지 않도록 단단히 고정합니다.', isWarning: false }
     ]
   },
-  {
-    id: 'bodyweight-calf-raise-rdl',
-    name: '스탠딩 카프 레이즈 & 싱글레그 RDL',
-    category: 'strength',
-    subType: 'bodyweight_legs',
-    bodyPart: 'legs',
-    targetPaps: '순발력 & 유연성 (종아리 비복근·발목 탄성·후면사슬)',
-    difficulty: '초급',
-    targetMuscles: ['비복근(종아리)', '가자미근', '발목 안정근', '햄스트링'],
-    description: '발뒤꿈치를 최대한 높이 들어 올려 종아리 근육을 쥐어짜고, 한 발로 서서 힙 힌지를 수행하여 달리기와 점프에 필수적인 발목 탄성을 강화합니다.',
-    safetyNotes: [
-      '내려올 때 발뒤꿈치가 쿵 떨어지지 않고 지면 직전까지 천천히 버팁니다.'
-    ],
-    steps: [
-      '벽을 가볍게 짚고 양발을 골반너비로 선 뒤 발가락 앞꿈치로만 지면을 누르며 뒤꿈치를 최고 높이로 들어 올립니다.',
-      '종아리 꼭대기에서 2초간 강하게 쥐어짜고 천천히 내려옵니다.',
-      '이어서 한 발로 지탱하며 상체를 숙이고 반대 다리를 뒤로 뻗는 싱글레그 힌지를 연결합니다.'
-    ],
-    recommendedRepsOrTime: '카프레이즈 25회 + 힌지 10회 (3세트)',
-    mode: 'counter',
-    defaultGoal: 25,
-    unit: '회',
-    iconName: 'Zap',
-    guideAnimationType: 'jump',
-    calorieBurnPerMin: 5,
-    imageUrl: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['뒤꿈치 최대 거상', '2초 수축 정지', '발목 관절 안정화'],
-    checkpoints: [
-      { title: '엄지발가락 지지', desc: '새끼발가락 쪽으로 무게가 새지 않도록 엄지발가락 관절로 강하게 밉니다.', isWarning: false }
-    ]
-  },
 
   // =========================================================================
   // 5. [심폐지구력 러닝 훈련] (Running Training: Intervals & Buildup)
@@ -961,37 +898,6 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
     keyPoints: ['GPS 실시간 위치 측정', '1km당 페이스(분/km) 관리', '미드풋 착지'],
     checkpoints: [
       { title: 'GPS 연결 확인', desc: '실외 트랙이나 탁 트인 곳에서 시작하면 GPS 정확도가 극대화됩니다.', isWarning: false }
-    ]
-  },
-  {
-    id: 'running-run-walk-protocol',
-    name: '[초급] 런-워크 1:1 러닝 (20분 완성)',
-    category: 'running',
-    subType: 'running_drill',
-    targetPaps: '심폐지구력 (러닝 기초 체력)',
-    difficulty: '초급',
-    targetMuscles: ['심폐순환계', '하지 전신 근육', '유산소 대사능력'],
-    description: '달리기 초보자를 위한 가장 안전한 유산소 훈련으로, 1분 가벼운 조깅과 1분 빠른 걷기를 10회 반복하여 심폐지구력 기반을 만듭니다.',
-    safetyNotes: [
-      '조깅 구간에서 무리하게 전력 질주하지 않고 대화가 가능한 편안한 속도를 유지합니다.',
-      '착지 시 쿵쿵 소리가 나지 않도록 미드풋으로 가볍게 착지합니다.'
-    ],
-    steps: [
-      '워밍업 3분 가볍게 걷기 후 본 훈련을 시작합니다.',
-      '[1분 조깅 (심박수 60~70%)] ➔ [1분 빠른 걷기 (호흡 정리)]를 1세트로 하여 총 10세트(20분) 진행합니다.',
-      '쿨다운 스트레칭 2분으로 마무리합니다.'
-    ],
-    recommendedRepsOrTime: '20분 지속 훈련 (주 3회)',
-    mode: 'timer',
-    defaultGoal: 1200,
-    unit: '초',
-    iconName: 'Zap',
-    guideAnimationType: 'run',
-    calorieBurnPerMin: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['미드풋 착지', '1:1 시간 엄수', '코호흡과 입호흡의 조화'],
-    checkpoints: [
-      { title: '착지 소음', desc: '발소리가 크게 들리지 않도록 발목 힘을 빼고 가볍게 디딥니다.', isWarning: false }
     ]
   },
   {
@@ -1029,133 +935,6 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
   // =========================================================================
   // 6. [인터벌 훈련 가이드] (High Intensity & Interval Training Guides)
   // =========================================================================
-  {
-    id: 'interval-tabata-sprint',
-    name: '타바타 4분 고강도 러닝 인터벌 (Tabata 20/10)',
-    category: 'interval',
-    subType: 'interval_drill',
-    targetPaps: '심폐지구력 & 최대산소섭취량 (VO2max 극대화)',
-    difficulty: '고급',
-    targetMuscles: ['심폐순환계', '대퇴사두근', '둔근', '햄스트링', '전신 무산소'],
-    description: '20초간 최고 속도로 전력 질주하고 10초간 가볍게 조깅/휴식하는 사이클을 8회(총 4분) 반복하여 짧은 시간 안에 심폐 한계를 뚫어주는 전설적인 타바타 프로토콜입니다.',
-    safetyNotes: [
-      '워밍업 없이 전력 질주하면 근육 경련이 발생할 수 있으므로 5분 이상 조깅 후 실시합니다.',
-      '어지러움이나 가슴 답답함이 느껴지면 즉시 질주를 멈추고 걷습니다.'
-    ],
-    steps: [
-      '워밍업 조깅 3분으로 체온을 올립니다.',
-      '[20초 최고 속도 전력 질주 (심박수 90% 이상)] ➔ [10초 가벼운 걷기/조깅]을 1라운드로 설정합니다.',
-      '총 8라운드(4분) 동안 쉬지 않고 몰아치며 마지막 8라운드까지 전력을 다합니다.',
-      '훈련 후 3분 이상 천천히 걸으며 심박수를 안정시킵니다.'
-    ],
-    recommendedRepsOrTime: '20초 질주 + 10초 휴식 x 8라운드 (총 4분)',
-    mode: 'timer',
-    defaultGoal: 240,
-    unit: '초',
-    iconName: 'Flame',
-    guideAnimationType: 'run',
-    calorieBurnPerMin: 16,
-    imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['20초 전력 질주 몰입', '10초 휴식 엄수', '4분 단기 완성'],
-    checkpoints: [
-      { title: '페이스 유지', desc: '초반 1~2라운드에만 전력하고 지치지 않도록 8라운드 전체를 완주합니다.', isWarning: false }
-    ]
-  },
-  {
-    id: 'interval-paps-shuttle-prep',
-    name: '셔틀런 1등급 대비 15m/20m 가속 인터벌',
-    category: 'interval',
-    subType: 'interval_drill',
-    targetPaps: '심폐지구력 (PAPS 왕복오래달리기 80회 돌파 훈련)',
-    difficulty: '중급',
-    targetMuscles: ['심폐지구력', '하체 턴 제동력', '지면반발력'],
-    description: 'PAPS 셔틀런 턴 동작과 가속 능력을 집중 훈련하기 위해 20m 구간을 30초 동안 왕복 질주하고 15초간 제자리 호흡을 가다듬는 실전형 인터벌입니다.',
-    safetyNotes: [
-      '턴 지점에서 무릎이 뒤틀리지 않도록 낮은 자세로 방향을 전환합니다.'
-    ],
-    steps: [
-      '20m 구간 양 끝에 마커를 설치합니다.',
-      '30초 동안 신호음에 구애받지 않고 최대 왕복 횟수를 목표로 턴 질주합니다.',
-      '15초간 제자리에서 깊은 심호흡으로 회복합니다.',
-      '총 6~8세트 반복하여 셔틀런 후반부 심폐 피로도에 적응합니다.'
-    ],
-    recommendedRepsOrTime: '30초 질주 + 15초 회복 x 6세트',
-    mode: 'timer',
-    defaultGoal: 270,
-    unit: '초',
-    iconName: 'Zap',
-    guideAnimationType: 'shuttle-run',
-    calorieBurnPerMin: 13,
-    imageUrl: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['급감속 후 폭발적 재가속', '15초 정밀 회복', '셔틀런 실전 적응'],
-    checkpoints: [
-      { title: '턴 자세', desc: '몸통을 180도 부드럽게 낮추어 돌아 나옵니다.', isWarning: false }
-    ]
-  },
-  {
-    id: 'interval-pyramid-tempo',
-    name: '피라미드 페이스 인터벌 (1분-2분-3분-2분-1분)',
-    category: 'interval',
-    subType: 'interval_drill',
-    targetPaps: '심폐지구력 (페이스 조절력 & 젖산 내성 배양)',
-    difficulty: '중급',
-    targetMuscles: ['심근 강화', '대퇴사두근', '비복근', '호흡근'],
-    description: '질주 시간을 1분 ➔ 2분 ➔ 3분으로 늘렸다가 다시 2분 ➔ 1분으로 줄여나가는 피라미드식 인터벌로, 달리기 페이스 조절과 젖산 분해 능력을 극대화합니다.',
-    safetyNotes: [
-      '3분 정점 구간에서 포기하지 않도록 1분, 2분 구간에서 지나친 오버페이스를 자제합니다.'
-    ],
-    steps: [
-      '1단계: 1분 빠른 러닝 + 1분 조깅 회복',
-      '2단계: 2분 템포 러닝 + 1분 30초 회복',
-      '3단계(피크): 3분 고속 러닝 + 2분 회복',
-      '4단계: 2분 템포 러닝 + 1분 30초 회복',
-      '5단계: 1분 라스트 전력 질주 + 쿨다운 걷기'
-    ],
-    recommendedRepsOrTime: '총 16분 피라미드 루틴 1세트',
-    mode: 'timer',
-    defaultGoal: 960,
-    unit: '초',
-    iconName: 'Timer',
-    guideAnimationType: 'run',
-    calorieBurnPerMin: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['피라미드 정점 극복', '단계별 페이스 안배', '회복 시간 준수'],
-    checkpoints: [
-      { title: '심박 회복', desc: '회복 구간에서 멈추지 않고 가볍게 조깅하거나 걸어 혈류를 순환시킵니다.', isWarning: false }
-    ]
-  },
-  {
-    id: 'interval-bodyweight-hiit',
-    name: '맨몸 전신 고강도 HIIT 서킷 인터벌 (버피·하이니·점핑)',
-    category: 'interval',
-    subType: 'interval_drill',
-    targetPaps: '심폐지구력 & 전신 근지구력 (실내 공간 10분 완성)',
-    difficulty: '고급',
-    targetMuscles: ['전신 근육군', '심폐순환계', '복근', '하체 파워'],
-    description: '도구 없이 좁은 실내에서도 폭발적인 심박수 상승을 유도하는 맨몸 전신 고강도 인터벌(HIIT)로, 버피테스트, 하이니(제자리 무릎차기), 마운틴 클라이머를 서킷으로 순환합니다.',
-    safetyNotes: [
-      '착지 시 앞꿈치부터 부드럽게 닿아 층간소음과 무릎 관절 충격을 방지합니다.'
-    ],
-    steps: [
-      '1번: 버피테스트 40초 수행 ➔ 20초 휴식',
-      '2번: 제자리 고속 하이니 40초 ➔ 20초 휴식',
-      '3번: 마운틴 클라이머 40초 ➔ 20초 휴식',
-      '4번: 점핑 에어 스쿼트 40초 ➔ 20초 휴식',
-      '위 4개 종목을 1세트로 하여 2~3세트 반복합니다.'
-    ],
-    recommendedRepsOrTime: '40초 운동 + 20초 휴식 (4종목 x 2세트 총 8분)',
-    mode: 'timer',
-    defaultGoal: 480,
-    unit: '초',
-    iconName: 'Flame',
-    guideAnimationType: 'jump',
-    calorieBurnPerMin: 15,
-    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['40초간 지치지 않는 템포', '전신 지방 연소', '폭발적인 심박 상승'],
-    checkpoints: [
-      { title: '자세 무너짐 주의', desc: '호흡이 가빠져도 허리가 꺾이지 않도록 코어를 고정합니다.', isWarning: true }
-    ]
-  },
   {
     id: 'interval-kettlebell-cardio',
     name: '캐틀벨 스윙 & 런 유산소 인터벌',
@@ -1252,36 +1031,261 @@ export const EXERCISE_DATABASE: ExerciseGuide[] = [
   },
 
   // =========================================================================
-  // 8. [순발력 플라이오메트릭] (Plyometrics for Explosive Power)
+  // 8. [메디신볼 파워 & 코어 트레이닝] (Medicine Ball Training)
   // =========================================================================
   {
-    id: 'plyo-power-tuck-jump',
-    name: '파워 터크 점프 (Tuck Jump - 무릎 가슴 도약)',
-    category: 'plyometrics',
-    subType: 'plyometrics',
-    targetPaps: '순발력 (순간 하지 폭발력 & 도약 탄성)',
-    difficulty: '고급',
-    targetMuscles: ['대퇴사두근', '둔근', '장요근', '복근', '종아리'],
-    description: '수직으로 최고 높이 도약하여 공중에서 양 무릎을 가슴까지 순간적으로 끌어올리는 최고 난이도의 하지 폭발력 훈련입니다.',
+    id: 'medball-slam',
+    name: '메디신볼 슬램 (Medicine Ball Slam)',
+    category: 'medicineball',
+    subType: 'medicine_ball',
+    targetPaps: '순발력 & 전신 근지구력 (코어 폭발력 & 상·하체 협응)',
+    difficulty: '중급',
+    targetMuscles: ['복직근', '광배근', '전면삼각근', '대둔근', '대퇴사두근'],
+    description: '양손으로 메디신볼을 머리 위로 높이 들어 올린 뒤 복근과 광배근의 폭발적인 힘으로 바닥에 힘껏 내리꽂아 전신 순발력과 심폐 능력을 동시에 기르는 핵심 메디신볼 운동입니다.',
     safetyNotes: [
-      '착지 시 발바닥 전체로 부드럽게 무릎을 굽혀 착지 충격을 완충합니다.'
+      '공이 바닥에서 튕겨 올라올 때 얼굴에 맞지 않도록 무반동(데드) 메디신볼을 쓰거나 반발 탄성을 확인하고 잡습니다.',
+      '허리 힘으로만 던지지 않고 스쿼트 자세로 무릎과 엉덩이를 함께 굽히며 내리칩니다.'
     ],
     steps: [
-      '양발을 어깨너비로 벌리고 선 뒤 팔을 뒤로 젖히며 무릎을 살짝 굽힙니다.',
-      '지면을 강하게 박차고 수직으로 솟구치며 공중에서 무릎을 가슴 높이까지 빠르게 당깁니다.',
-      '손으로 무릎을 가볍게 터치하고 재빠르게 다리를 펴서 부드럽게 착지합니다.'
+      '양발을 어깨너비로 벌리고 메디신볼을 가슴 앞에 쥡니다.',
+      '발뒤꿈치를 살짝 들 정도로 몸을 곧게 펴며 공을 머리 위 끝까지 높이 들어 올립니다.',
+      '복부와 광배근을 강하게 수축하며 골반을 뒤로 빼고 공을 양발 사이 바닥에 힘껏 내리칩니다.',
+      '바닥에 닿은 공을 스쿼트 자세를 유지한 채 빠르게 잡아 다시 연속 동작으로 이어갑니다.'
     ],
-    recommendedRepsOrTime: '10회 도약 x 3세트',
+    recommendedRepsOrTime: '15회 x 3세트',
     mode: 'counter',
-    defaultGoal: 10,
+    defaultGoal: 15,
     unit: '회',
     iconName: 'Flame',
     guideAnimationType: 'jump',
     calorieBurnPerMin: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&auto=format&fit=crop&q=80',
-    keyPoints: ['수직 최고 도약', '무릎 가슴 순간 압축', '스프링 같은 연속 탄성'],
+    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['전신 신전 후 폭발적 수축', '무릎 굽혀 공 잡기', '코어 복압 유지'],
     checkpoints: [
-      { title: '부드러운 착지', desc: '쿵 소리 없이 앞꿈치부터 닿으며 무릎을 굽힙니다.', isWarning: false }
+      { title: '반동 공 주의', desc: '고탄성 볼을 쓸 경우 얼굴을 뒤로 빼고 두 손으로 안전하게 포구합니다.', isWarning: true },
+      { title: '등 굽힘 방지', desc: '공을 주울 때 허리를 구부리지 말고 엉덩이를 낮춰 스쿼트로 잡습니다.', isWarning: false }
+    ]
+  },
+  {
+    id: 'medball-wall-ball',
+    name: '메디신볼 월볼 / 월풀 (Wall Ball Shot)',
+    category: 'medicineball',
+    subType: 'medicine_ball',
+    targetPaps: '근지구력 & 심폐지구력 (하체 스쿼트 파워 & 상체 프레스)',
+    difficulty: '중급',
+    targetMuscles: ['대퇴사두근', '대둔근', '전면삼각근', '상완삼두근', '코어'],
+    description: '벽 앞에서 메디신볼을 가슴 앞에 안고 깊은 스쿼트를 한 뒤, 일어나는 탄력을 이용해 벽의 목표 지점(약 2.7~3m 높이)을 향해 공을 던지고 받아내는 전신 컨디셔닝 운동입니다.',
+    safetyNotes: [
+      '벽과의 거리는 팔을 앞으로 뻗었을 때 공이 닿는 정도(약 50~60cm)가 적당합니다.',
+      '공을 받을 때 뻣뻣하게 서서 받지 말고 스쿼트 자세로 자연스럽게 내려가며 충격을 흡수합니다.'
+    ],
+    steps: [
+      '튼튼한 벽을 마주 보고 팔 길이 간격으로 서서 메디신볼을 턱 아래 가슴 앞에 받쳐 쥡니다.',
+      '가슴을 편 상태에서 허벅지가 바닥과 평행이 될 때까지 깊게 풀 스쿼트로 앉습니다.',
+      '발뒤꿈치로 지면을 강하게 밀며 일어나는 하체 추진력으로 공을 위쪽 벽 목표점에 던집니다.',
+      '벽을 맞고 떨어지는 공을 두 손으로 안전하게 잡으며 즉시 다음 스쿼트 하강 동작으로 연결합니다.'
+    ],
+    recommendedRepsOrTime: '15~20회 x 3세트',
+    mode: 'counter',
+    defaultGoal: 15,
+    unit: '회',
+    iconName: 'Zap',
+    guideAnimationType: 'squat',
+    calorieBurnPerMin: 13,
+    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['하체 반발력 전달', '팔꿈치 안쪽 고정', '연속 리듬 포구'],
+    checkpoints: [
+      { title: '낙하 공 시선 추적', desc: '공이 떨어질 때까지 시선을 떼지 말고 얼굴 앞 손 위치에서 정확히 캐치합니다.', isWarning: true },
+      { title: '가슴 세우기', desc: '공 무게 때문에 상체가 앞으로 숙여지지 않도록 코어를 세웁니다.', isWarning: false }
+    ]
+  },
+  {
+    id: 'medball-sit-up',
+    name: '메디신볼 싯업 (Medicine Ball Sit-Up)',
+    category: 'medicineball',
+    subType: 'medicine_ball',
+    targetPaps: '근력/근지구력 (고강도 상·하복부 코어 강화)',
+    difficulty: '초급',
+    targetMuscles: ['상복직근', '하복직근', '복횡근', '전면삼각근'],
+    description: '메디신볼을 가슴 앞이나 머리 위로 든 상태에서 윗몸일으키기를 수행하여 복근에 부하를 더하고 윗몸말아올리기(PAPS) 수행 능력을 크게 끌어올리는 코어 운동입니다.',
+    safetyNotes: [
+      '공 무게를 이용해 허리를 반동으로 튕기지 않고 복부 힘으로 천천히 말아 올립니다.',
+      '목이 뻐근하다면 공을 턱 아래 가슴에 가깝게 안고 진행합니다.'
+    ],
+    steps: [
+      '무릎을 세우고 바닥에 누워 양손으로 메디신볼을 가슴 앞 또는 머리 위 팔을 편 상태로 쥡니다.',
+      '복근을 강하게 조이며 등 위쪽부터 척추를 하나씩 말아 올려 상체를 일으킵니다.',
+      '상체가 완전히 올라온 정점에서 메디신볼을 천장 방향으로 들어 올리며 1초간 정지합니다.',
+      '허리가 쿵 떨어지지 않도록 복부 긴장을 유지하며 천천히 시작 자세로 내려옵니다.'
+    ],
+    recommendedRepsOrTime: '15~20회 x 3세트',
+    mode: 'counter',
+    defaultGoal: 15,
+    unit: '회',
+    iconName: 'Award',
+    guideAnimationType: 'curl-up',
+    calorieBurnPerMin: 8,
+    imageUrl: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['척추 분절 말아올리기', '정점 천장 프레스', '천천히 네거티브 하강'],
+    checkpoints: [
+      { title: '발 고정 주의', desc: '발뒤꿈치가 바닥에서 들리지 않도록 복부에 지속적인 힘을 줍니다.', isWarning: false }
+    ]
+  },
+  {
+    id: 'medball-russian-twist',
+    name: '메디신볼 러시안 트위스트 (Russian Twist)',
+    category: 'medicineball',
+    subType: 'medicine_ball',
+    targetPaps: '근지구력 (옆구리 복사근 & 몸통 회전 파워)',
+    difficulty: '중급',
+    targetMuscles: ['외복사근', '내복사근', '복직근', '고관절 굴곡근'],
+    description: '바닥에 V자로 앉아 메디신볼을 양손에 쥐고 상체를 좌우로 회전시켜 스포츠 수행 능력과 옆구리 코어를 강화하는 회전 트레이닝입니다.',
+    safetyNotes: [
+      '팔만 좌우로 흔들지 말고 어깨와 가슴통 전체가 공과 함께 회전해야 합니다.'
+    ],
+    steps: [
+      '무릎을 살짝 굽혀 앉은 뒤 상체를 뒤로 45도 기울여 복부에 긴장을 줍니다(초보자는 발뒤꿈치 땅 고정, 중급자는 발 띄우기).',
+      '메디신볼을 가슴 앞에 들고 오른쪽 골반 옆 바닥 방향으로 몸통을 크게 비틀어 터치합니다.',
+      '곧바로 반대쪽 왼쪽 골반 옆으로 몸통을 회전하며 좌우 교대로 반복합니다.'
+    ],
+    recommendedRepsOrTime: '좌우 왕복 20회 x 3세트',
+    mode: 'counter',
+    defaultGoal: 20,
+    unit: '회',
+    iconName: 'Activity',
+    guideAnimationType: 'curl-up',
+    calorieBurnPerMin: 8,
+    imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['가슴통 전체 회전', '허리 곧게 펴기', '좌우 균일한 템포'],
+    checkpoints: [
+      { title: '요추 말림 방지', desc: '허리가 둥글게 말려 통증이 온다면 상체를 조금 더 세워 진행합니다.', isWarning: true }
+    ]
+  },
+  // =========================================================================
+  // 9. [홈트레이닝 배틀로프 운동] (Home Training Battle Rope)
+  // =========================================================================
+  {
+    id: 'hometrain-battlerope-alternating',
+    name: '[홈트레이닝] 배틀로프 얼터네이팅 웨이브 (교차 파동)',
+    category: 'battlerope',
+    subType: 'battle_rope',
+    targetPaps: '심폐지구력 & 상체 근지구력 (어깨·팔·코어 유산소)',
+    difficulty: '초급',
+    targetMuscles: ['전면삼각근', '상완이두근', '전완근', '복횡근', '심폐순환계'],
+    description: '가정이나 실내에서 배틀로프(또는 단축 홈트 로프)를 기둥이나 도어 앵커에 걸고 양팔을 번갈아 상하로 흔들어 물결 파동을 만드는 가장 기본적인 홈트레이닝 배틀로프 루틴입니다.',
+    safetyNotes: [
+      '실내/가정에서는 바닥 충격음 방지를 위해 두꺼운 요가매트나 충격흡수 매트를 로프 닿는 구역 아래에 깔아주세요.',
+      '고정 앵커(문고리 스트랩 또는 묵직한 케틀벨/기둥)가 흔들리지 않는지 시작 전 반드시 당겨서 확인합니다.'
+    ],
+    steps: [
+      '고정된 앵커로부터 로프가 살짝 느슨한 거리(양팔 뻗어 여유가 있는 위치)에 섭니다.',
+      '발을 어깨너비로 벌리고 무릎을 살짝 굽힌 하프 스쿼트(애슬레틱 스탠스) 자세를 잡습니다.',
+      '양손으로 로프 끝 그립을 잡고 오른팔과 왼팔을 빠르고 리듬감 있게 번갈아 위아래로 흔들어 웨이브를 앵커 끝까지 전달합니다.',
+      '어깨가 으쓱 올라가지 않게 가슴을 펴고 30초간 일정한 파동 크기를 유지합니다.'
+    ],
+    recommendedRepsOrTime: '30초 운동 + 30초 휴식 x 4세트',
+    mode: 'timer',
+    defaultGoal: 30,
+    unit: '초',
+    iconName: 'Zap',
+    guideAnimationType: 'pull',
+    calorieBurnPerMin: 14,
+    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['하프 스쿼트 코어 고정', '끝까지 전달되는 물결 파동', '매트 활용 무소음 홈트'],
+    checkpoints: [
+      { title: '실내 바닥 보호', desc: '로프가 바닥을 세게 치지 않도록 진폭을 어깨-골반 사이로 조절하면 층간소음이 크게 줄어듭니다.', isWarning: false },
+      { title: '허리 젖힘 주의', desc: '팔이 지칠 때 상체를 뒤로 젖히지 말고 복압을 유지합니다.', isWarning: true }
+    ]
+  },
+  {
+    id: 'hometrain-battlerope-double-wave',
+    name: '[홈트레이닝] 배틀로프 더블 웨이브 (양손 동시 파동)',
+    category: 'battlerope',
+    subType: 'battle_rope',
+    targetPaps: '근지구력 & 심폐 파워 (양팔 동시 수축 & 둔근 지지)',
+    difficulty: '중급',
+    targetMuscles: ['전면삼각근', '광배근', '대흉근', '복직근', '대둔근'],
+    description: '양팔을 동시에 들어 올렸다 내리며 굵고 큰 쌍둥이 파동을 만들어내는 홈트레이닝 배틀로프 훈련으로, 교차 파동보다 전신 코어와 등 근육 개입이 훨씬 큽니다.',
+    safetyNotes: [
+      '가정 내 천장 조명이나 주변 가구에 손이나 로프가 닿지 않도록 반경 2m 공간을 확보하세요.'
+    ],
+    steps: [
+      '무릎을 20~30도 굽힌 안정적인 기마 자세를 잡고 로프를 쥡니다.',
+      '양손을 동시에 어깨 높이 이상으로 빠르게 들어 올렸다가 복부에 힘을 주며 동시에 힘껏 아래로 내립니다.',
+      '로프 두 줄이 나란히 같은 높이의 큰 파동을 그리며 앵커까지 뻗어 나가도록 리듬을 유지합니다.'
+    ],
+    recommendedRepsOrTime: '20~30초 운동 + 30초 휴식 x 4세트',
+    mode: 'timer',
+    defaultGoal: 30,
+    unit: '초',
+    iconName: 'Flame',
+    guideAnimationType: 'pull',
+    calorieBurnPerMin: 15,
+    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['양팔 대칭 동시 파동', '복부 탄력 반동', '고관절 흔들림 억제'],
+    checkpoints: [
+      { title: '균형 유지', desc: '로프 무게에 몸이 앞으로 끌려가지 않도록 발뒤꿈치에 체중을 둡니다.', isWarning: false }
+    ]
+  },
+  {
+    id: 'hometrain-battlerope-power-slam',
+    name: '[홈트레이닝] 배틀로프 파워 슬램 & 스쿼트 다운',
+    category: 'battlerope',
+    subType: 'battle_rope',
+    targetPaps: '순발력 & 전신 근력 (하체 점프·스쿼트 + 상체 슬램)',
+    difficulty: '고급',
+    targetMuscles: ['광배근', '복직근', '대퇴사두근', '대둔근', '전완근'],
+    description: '양팔로 로프를 머리 위까지 높게 뻗었다가 스쿼트로 앉음과 동시에 바닥(매트)에 강하게 내리치는 전신 폭발력 배틀로프 운동입니다.',
+    safetyNotes: [
+      '공동주택(아파트 등) 실내에서는 매트를 2겹 깔거나 바닥 직전 5cm에서 제동을 거는 컨트롤 슬램으로 진행하면 층간소음 없이 동일한 자극을 얻을 수 있습니다.'
+    ],
+    steps: [
+      '로프를 쥔 상태에서 가슴을 펴며 일어서고 양팔을 머리 위로 크게 들어 올립니다.',
+      '복근과 광배근을 순간적으로 쥐어짜며 스쿼트 자세로 앉음과 동시에 로프를 매트 위로 강하게 내리칩니다.',
+      '호흡을 강하게 내뱉으며 즉시 일어서서 다음 슬램을 준비합니다.'
+    ],
+    recommendedRepsOrTime: '12~15회 x 3세트',
+    mode: 'counter',
+    defaultGoal: 15,
+    unit: '회',
+    iconName: 'Zap',
+    guideAnimationType: 'squat',
+    calorieBurnPerMin: 16,
+    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['상하체 동시 폭발', '스쿼트-슬램 타이밍', '무소음 매트 제어'],
+    checkpoints: [
+      { title: '층간소음 에티켓', desc: '실내에서는 바닥에 닿기 직전 팔 힘으로 브레이크를 걸어 충격음을 줄여보세요.', isWarning: false }
+    ]
+  },
+  {
+    id: 'hometrain-battlerope-cordless-hiit',
+    name: '[홈트레이닝] 로프리스(코드리스) 배틀로프 무소음 서킷',
+    category: 'battlerope',
+    subType: 'battle_rope',
+    targetPaps: '심폐지구력 & 실내 유산소 (좁은 방·층간소음 제로)',
+    difficulty: '초급',
+    targetMuscles: ['전면/측면 삼각근', '전완근', '복직근', '심폐순환계'],
+    description: '긴 줄이나 고정 앵커 없이도 방 안 어디서나 좁은 공간에서 수행하는 코드리스(무선 스프링/웨이트 스틱형 또는 맨손 모션) 배틀로프 홈트레이닝입니다. 바닥에 로프가 닿지 않아 층간소음이 전혀 없습니다.',
+    safetyNotes: [
+      '코드리스 배틀로프(스프링형/단축 로프)를 사용할 때는 손목 스트랩을 착용하고 주변 사람이나 물건과 거리를 둡니다.'
+    ],
+    steps: [
+      '양손에 코드리스 배틀로프 그립(또는 500ml 물병/가벼운 덤벨)을 쥐고 하프 스쿼트 자세를 잡습니다.',
+      '1단계(15초): 빠른 속도의 교차 웨이브(얼터네이팅) 모션을 수행합니다.',
+      '2단계(15초): 양손을 안팎으로 회전시키는 인아웃 서클(In-Out Circles)을 연속 수행합니다.',
+      '15초 휴식 후 총 4~5라운드를 반복합니다.'
+    ],
+    recommendedRepsOrTime: '30초 수행 + 15초 휴식 x 4라운드',
+    mode: 'timer',
+    defaultGoal: 30,
+    unit: '초',
+    iconName: 'Flame',
+    guideAnimationType: 'pull',
+    calorieBurnPerMin: 12,
+    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop&q=80',
+    keyPoints: ['앵커 불필요·공간 제약 제로', '층간소음 0%', '고속 웨이브 & 인아웃 서클'],
+    checkpoints: [
+      { title: '어깨 긴장 방지', desc: '동작이 빨라져도 승모근이 귀 쪽으로 올라가지 않도록 어깨를 아래로 누릅니다.', isWarning: false }
     ]
   }
 ];
